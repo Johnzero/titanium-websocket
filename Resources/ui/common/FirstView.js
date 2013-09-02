@@ -30,36 +30,9 @@ function FirstView() {
 	    createNotificationViaService('Fired pending notification!', delta - now);
 	});
 
-	var gpsLabel = Ti.UI.createLabel({
-		text: '',
-		color: '#fff',
-		font: {
-			fontSize: '20dp',
-			fontWeight: 'normal'	
-		},
-		top: '80dp'
-	});
-	// Create a notification on orientation changes
-	Ti.Gesture.addEventListener('orientationchange', function(e) {
-		createNotificationViaService('Orientation changed!');
-	});
-
-	// Create a notification whenever we receive location data. This will 
-	// work both in the foreground and background.
-	if (Ti.Geolocation.locationServicesEnabled) {
-	    Ti.Geolocation.addEventListener('location', function(e) {
-	        if (!e.error) {
-	        	var gps = 'latitude: ' + e.coords.latitude + '\nlongitude: ' + e.coords.longitude;
-	        	gpsLabel.text = gps;
-	        	createNotificationViaService(gps);
-	        }
-	    });
-	} 
-	//Ti.Geolocation.getCurrentPosition(function(e) {});
 
 	self.add(button);
 	self.add(button2);
-	self.add(gpsLabel);
 
 	logarea = Titanium.UI.createTextArea({
 	    backgroundColor: "#eee",

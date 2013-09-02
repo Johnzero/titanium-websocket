@@ -651,7 +651,7 @@ var CLOSING = 2;
 var CLOSED = 3;
 
 var BUFFER_SIZE = 65536;
-var CLOSING_TIMEOUT = 500;
+var CLOSING_TIMEOUT = 1000;
 
 var WebSocket = function(url, protocols, origin, extensions) {
   this.url = url;
@@ -1302,7 +1302,7 @@ WebSocket.prototype._connect = function() {
     host: this._host,
     port: this._port,
     mode: Ti.Network.READ_WRITE_MODE,
-    timeout : 3000,
+    timeout : 10000,
     connected: function(e) {
       var result;
       result = self._send_handshake();

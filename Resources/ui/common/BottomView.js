@@ -8,23 +8,10 @@ function BottomView(navController) {
 
 	});
 	
-	var gpsLabel = Ti.UI.createLabel({
-		text: 'gpsLabel',
-		color: '#fff',
-		font: {
-			fontSize: '20dp',
-			fontWeight: 'normal'	
-		},
-		top: '280dp'
-	});
-
-	Ti.Gesture.addEventListener('orientationchange', function(e) {
-
-	});
 
 	var bottom = Ti.UI.createLabel ({
 		backgroundColor:'darkgray',
-		text: '咕噜网@安徽木森网络科技有限公司',
+		text: '咕噜网',
 		textAlign: 'center',
 		bottom:0,
 		width: Titanium.UI.FILL, 
@@ -62,7 +49,6 @@ function BottomView(navController) {
 		backgroundSelectedImage:'/top2.png'
 	});
 
-	self.add(gpsLabel);
 	self.add(bottom);
 	self.add(top);
 
