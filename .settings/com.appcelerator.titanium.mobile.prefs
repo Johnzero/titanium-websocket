@@ -1,0 +1,10 @@
+android/ATTR_MINIFY=true
+android/ATTR_PROJECT_NAME=WebSocket
+android/abi=armeabi
+android/distribute_path=C\:\\Users\\Administrator\\Desktop
+android/keystore_alias=asdfssssssssssss
+android/keystore_password=123123
+android/keystore_path=D\:\\\u6211\u7684\u8D44\u6599\u5E93\\Documents\\1.key
+android/recent_output=C\:\\Users\\Administrator\\Desktop
+android/sdk_version=Android 2.3.3
+eclipse.preferences.version=1

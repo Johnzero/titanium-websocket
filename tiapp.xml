@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.as</id>
-    <name>as</name>
+    <sdk-version>3.1.1.GA</sdk-version>
+    <deployment-targets>
+        <target device="tizen">false</target>
+        <target device="mobileweb">false</target>
+        <target device="iphone">false</target>
+        <target device="ipad">false</target>
+        <target device="android">true</target>
+        <target device="blackberry">false</target>
+    </deployment-targets>
+    <id>com.appcelerator.WebSocket</id>
+    <name>WebSocket</name>
     <version>1.0</version>
-    <publisher>Administrator</publisher>
-    <url>http://</url>
+    <publisher>John</publisher>
+    <url>http://appcelerator.com</url>
     <description>not specified</description>
-    <copyright>2013 by Administrator</copyright>
+    <copyright>2013 by John</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
@@ -15,8 +24,7 @@
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
-    <guid>c10f59cc-315a-4d34-8c45-eff13c9592e4</guid>
-    <property name="ti.ui.defaultunit" type="string">system</property>
+    <guid>1798e6de-24b3-47f9-ac17-07437ae8315e</guid>
     <iphone>
         <orientations device="iphone">
             <orientation>Ti.UI.PORTRAIT</orientation>
@@ -28,23 +36,23 @@
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
     </iphone>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
-    <mobileweb>
-        <precache/>
-        <splash>
-            <enabled>true</enabled>
-            <inline-css-images>true</inline-css-images>
-        </splash>
-        <theme>default</theme>
-    </mobileweb>
-    <modules/>
-    <deployment-targets>
-        <target device="iphone">false</target>
-        <target device="ipad">false</target>
-        <target device="android">true</target>
-        <target device="blackberry">false</target>
-        <target device="mobileweb">false</target>
-        <target device="tizen">false</target>
-    </deployment-targets>
-    <sdk-version>3.1.1.GA</sdk-version>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <!-- the activities tag must be added if you want to use the url property to launch your app -->
+        <activities>
+            <activity url="app.js">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW"/>
+                    <category android:name="android.intent.category.DEFAULT"/>
+                    <category android:name="android.intent.category.BROWSABLE"/>
+                </intent-filter>
+            </activity>
+        </activities>
+        <!-- the services tag must be added so that our service will run -->
+        <services>
+            <service type="interval" url="IntentService.js"/>
+        </services>
+    </android>
+    <modules>
+        <module platform="android">com.billdawson.timodules.animation</module>
+    </modules>
 </ti:app>

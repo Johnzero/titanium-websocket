@@ -55,7 +55,7 @@ class MsgServerProtocol(WebSocketServerProtocol):
 
    def onMessage(self, msg, binary):
       for client in Msg_CLIENT_POOL:
-         client.sendMessage("<Server Msg : >" + msg + "------------------------", binary)
+         client.sendMessage("<SMsg : >" + msg + "------------------------", binary)
 
    def connectionLost(self, reason):
       # WebSocketServerProtocol.connectionLost(self, reason)

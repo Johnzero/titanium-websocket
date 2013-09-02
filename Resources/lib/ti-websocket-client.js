@@ -651,7 +651,7 @@ var CLOSING = 2;
 var CLOSED = 3;
 
 var BUFFER_SIZE = 65536;
-var CLOSING_TIMEOUT = 1000;
+var CLOSING_TIMEOUT = 500;
 
 var WebSocket = function(url, protocols, origin, extensions) {
   this.url = url;
@@ -751,7 +751,7 @@ WebSocket.prototype._send_handshake = function() {
 WebSocket.prototype._read_http_headers = function() {
   var string = "";
   var buffer = Ti.createBuffer({ length: BUFFER_SIZE });
-  var counter = 10;
+  var counter = 3;
   while(true) {
     var bytesRead = this._socket.read(buffer);
     if(bytesRead > 0) {
@@ -781,8 +781,6 @@ WebSocket.prototype._read_http_headers = function() {
     buffer.clear(); // clear the buffer before the next read
   }
   buffer.clear();
-
-  Ti.API.info(string+"_+_+_+_");
   this.headers = string.split("\r\n");
 
   return true;
@@ -816,9 +814,7 @@ WebSocket.prototype._check_handshake_response = function() {
   if(!h.Upgrade || !h.Connection || !h['Sec-WebSocket-Accept']) {
     return false;
   }
-  Ti.API.info(h);
-  Ti.API.info(h['Sec-WebSocket-Accept']);
-  Ti.API.info(handshake_reponse(this._handshake));
+
   if(h.Upgrade.toLowerCase() !== 'websocket' || h.Connection.toLowerCase() !== 'upgrade' || h['Sec-WebSocket-Accept'] !== handshake_reponse(this._handshake)) {
     return false;
   }
@@ -1023,7 +1019,6 @@ WebSocket.prototype.send = function(data) {
       source: buffer,
       charset: Ti.Codec.CHARSET_UTF8
     });
-
     var frame = null;
     var stringLength = string.length;
     if(stringLength < BUFFER_SIZE){
@@ -1307,6 +1302,7 @@ WebSocket.prototype._connect = function() {
     host: this._host,
     port: this._port,
     mode: Ti.Network.READ_WRITE_MODE,
+    timeout : 3000,
     connected: function(e) {
       var result;
       result = self._send_handshake();
@@ -1343,11 +1339,14 @@ WebSocket.prototype._connect = function() {
     },
     error: function(e) {
       var reason;
+      Ti.API.warn(e.errorCode);
       if('undefined' !== typeof e) {
         reason = e.error;
       }
       self._error(1000, reason);
     }
   });
+  
   this._socket.connect();
+
 };
