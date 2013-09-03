@@ -14,23 +14,35 @@ function ChatView() {
 		},
 		top: '80dp'
 	});
-	// Create a notification on orientation changes
-	Ti.Gesture.addEventListener('orientationchange', function(e) {
-		createNotificationViaService('Orientation changed!');
-	});
 
-	// Create a notification whenever we receive location data. This will 
-	// work both in the foreground and background.
-	if (Ti.Geolocation.locationServicesEnabled) {
-	    Ti.Geolocation.addEventListener('location', function(e) {
-	        if (!e.error) {
-	        	var gps = 'latitude: ' + e.coords.latitude + '\nlongitude: ' + e.coords.longitude;
-	        	gpsLabel.text = gps;
-	        	createNotificationViaService(gps);
-	        }
-	    });
-	} 
+	// Ti.Gesture.addEventListener('orientationchange', function(e) {
+	// 	createNotificationViaService('Orientation changed!');
+	// });
+
+	// if (Ti.Geolocation.locationServicesEnabled) {
+	//     Ti.Geolocation.addEventListener('location', function(e) {
+	//         if (!e.error) {
+	//         	var gps = 'latitude: ' + e.coords.latitude + '\nlongitude: ' + e.coords.longitude;
+	//         	gpsLabel.text = gps;
+	//         	createNotificationViaService(gps);
+	//         }
+	//     });
+	// } 
 	//Ti.Geolocation.getCurrentPosition(function(e) {});
+
+	var button = Ti.UI.createButton({
+			title: 'close',
+			height: '50dp',
+			width: '200dp',
+			top: '50dp'
+		});
+
+		button.addEventListener('click', function(e) {
+			// navController.home();
+			
+		});
+					
+	self.add(button);
 
 	self.add(gpsLabel);
 

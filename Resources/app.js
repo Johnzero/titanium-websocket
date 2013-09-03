@@ -24,6 +24,8 @@ if (Ti.version < 1.8 ) {
 		height = Ti.Platform.displayCaps.platformHeight,
 		width = Ti.Platform.displayCaps.platformWidth;
 	
+	IsBackground = false;
+
 	//considering tablet to have one dimension over 900px - this is imperfect, so you should feel free to decide
 	//yourself what you consider a tablet form factor for android
 	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
@@ -40,11 +42,47 @@ if (Ti.version < 1.8 ) {
 		}
 	}
 
+	var isRunning = Ti.App.Properties.getBool("service_running", false);
+
+	if (!isRunning) {
+
+		var intent = Titanium.Android.createServiceIntent( { url: 'websocket.js' } );
+
+		var service = Titanium.Android.createService(intent);
+		
+		service.addEventListener('resume', function(e) {
+
+		});
+		service.addEventListener('pause', function(e) {
+		});
+
+		service.start();
+
+	};
 	
-	var NavigationController = require('/lib/NavigationController').NavigationController;
+	// var NavigationController = require('/lib/NavigationController').NavigationController;
 
-	var controller = new NavigationController();
+	// var controller = new NavigationController();
 
-	controller.open(new Window(controller));
+	// controller.open(new Window(controller));
+	
+	new Window().open();
+
+	Ti.Android.currentActivity.addEventListener('destroy', function(e) {
+	});
+	Ti.Android.currentActivity.addEventListener('pause', function(e) {
+	    IsBackground = true;
+	});
+	Ti.Android.currentActivity.addEventListener('resume', function(e) {
+	    IsBackground = false;
+	});
+	Ti.Android.currentActivity.addEventListener('create', function(e) {
+	});
+	Ti.Android.currentActivity.addEventListener('start', function(e) {
+	});
+	Ti.Android.currentActivity.addEventListener('stop', function(e) {
+	});
+	Ti.Android.currentActivity.addEventListener('newintent', function(e) {
+	});
 
 })();

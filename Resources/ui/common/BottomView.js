@@ -1,5 +1,5 @@
 //FirstView Component Constructor
-function BottomView(navController) {
+function BottomView() {
 	//create object instance, a parasitic subclass of Observable
 	var self = Ti.UI.createView({
 		height:"60dp",
@@ -22,8 +22,6 @@ function BottomView(navController) {
 
 	bottom.addEventListener("click",function () {
 
-		var ChatWindow = require('ui/ChatWindow');
-		navController.open(new ChatWindow(navController));
 
 		// if (firstView.visible == true) {
 

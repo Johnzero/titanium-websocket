@@ -1,15 +1,12 @@
 //Application Window Component Constructor
-function MainWindow(navController) {
+function MainWindow() {
 
-	IsBackground = false;
-	//load component dependencies
 	var FirstView = require('ui/common/FirstView');
 		
-	//create component instance
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#222',
-		navBarHidden:false,
 		exitOnClose:false,
+		// modal:true,
 		activity : {
 		onCreateOptionsMenu : function(e) {
 			var menu = e.menu;
@@ -26,29 +23,43 @@ function MainWindow(navController) {
 	var firstView = new FirstView();
 	self.add(firstView);
 
-	Ti.include("/lib/websocket.js");
 
-	// firstView.visible = true;
-	// var ChatView = require('ui/common/ChatView');
-	// var chatview = new ChatView();
+	firstView.visible = true;
+	var ChatView = require('ui/common/ChatView');
+	var chatview = new ChatView();
 
-	var BottomView = require('ui/common/BottomView');
-	var bottomview = new BottomView(navController);
-	self.add(bottomview);
-
-			
-	self.addEventListener("open", function() {
-		
-	    var activity = self.activity;
-	    activity.addEventListener('resume', function (e) {
-	    	IsBackground = false;
-	    	// navController.home();
-	    });
-	    activity.addEventListener('pause', function (e) {
-	    	IsBackground = true;
-	    });
-	    // activity.addEventListener('destroy', OnAppDestroy);
+	var bottom = Ti.UI.createLabel ({
+		backgroundColor:'darkgray',
+		text: '咕噜网',
+		textAlign: 'center',
+		bottom:0,
+		width: Titanium.UI.FILL, 
+		backgroundImage:"/grad.png",
+		zIndex : 600,
+		height:"50dp"
 	});
+
+	bottom.addEventListener("click",function () {
+
+		// if (firstView.visible == true) {
+
+		// 	firstView.visible = false;
+
+		// 	self.add(chatview);
+
+		// }else {
+		// 	chatview.visible = false;
+		// 	firstView.visible = true;
+		// }
+		Ti.Android.currentActivity.finish();
+
+	});
+
+	self.add(bottom);
+
+	// self.addEventListener('android:back', function(){
+		
+	// });
 			
 	return self;
 				

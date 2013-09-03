@@ -23,7 +23,7 @@
     <statusbar-hidden>false</statusbar-hidden>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
-    <analytics>true</analytics>
+    <analytics>false</analytics>
     <guid>1798e6de-24b3-47f9-ac17-07437ae8315e</guid>
     <iphone>
         <orientations device="iphone">
@@ -36,7 +36,7 @@
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
     </iphone>
-    <android xmlns:android="http://schemas.android.com/apk/res/android">
+    <android xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="preferExternal">
         <manifest android:versionName="1.0.0">
             <uses-permission android:name="android.permission.WAKE_LOCK"/>
             <uses-permission android:name="android.permission.INTERNET"/>
@@ -56,6 +56,7 @@
         <!-- the services tag must be added so that our service will run -->
         <services>
             <service type="interval" url="IntentService.js"/>
+            <service type="interval" url="websocket.js"/>
         </services>
     </android>
     <modules>

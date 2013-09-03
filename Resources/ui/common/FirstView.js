@@ -53,7 +53,7 @@ function FirstView() {
 	    borderStyle: Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
 	    width: "200dp",
 	    height: "40dp",
-	    top: "400dp",
+	    top: "300dp",
 	    left: 5,
 	    value:"Hello World From Titanium!"
 	});
@@ -68,7 +68,7 @@ function FirstView() {
 	    textAlign: 'center',
 	    width: 70,
 	    height: "40dp",
-	    top: "400dp",
+	    top: "300dp",
 	    right: 5
 	});
 	self.add(sendBtn);
