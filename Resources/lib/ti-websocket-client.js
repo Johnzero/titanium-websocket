@@ -922,7 +922,7 @@ WebSocket.prototype._create_frame = function(opcode, d, last_frame) {
   //# mask data
   outIndex = this._mask_payload(out, outIndex, data);
   out.length = outIndex;
-  
+
   return out;
 };
 
@@ -1012,7 +1012,18 @@ var parse_frame = function(buffer, size) {
   return({fin: fin, opcode: opcode, payload: string, size: len + offset});
 };
 
+function isChinese(temp)  
+{  
+ var re = /[^\u4e00-\u9fa5]/;  
+ if(re.test(temp)) return false;  
+ return true;  
+}  
+
 WebSocket.prototype.send = function(data) {
+
+  data = data.replace(/[^\u0000-\u00FF]/g,function($0){return escape($0).replace(/(%u)(\w{4})/gi,"&#x$2;")}); 
+  Ti.API.warn(data);
+
   if(data && this.readyState === OPEN) {
     var buffer = Ti.createBuffer({ value: data });
     var string = Ti.Codec.decodeString({
@@ -1022,10 +1033,15 @@ WebSocket.prototype.send = function(data) {
     var frame = null;
     var stringLength = string.length;
     if(stringLength < BUFFER_SIZE){
+
       frame = this._create_frame(0x01, string);
+
       if(0 < this._socket.write(frame)){
+
         return true;
+
       }
+
       return false;
     }
 
@@ -1134,7 +1150,9 @@ WebSocket.prototype._read_buffer = function(callback){
   case 0x02: // binary frame
     if(frame.fin) {
       this.emit("message", {data: this._readBuffer + frame.payload});
-      this.onmessage({data: this._readBuffer + frame.payload});
+      this.onmessage({
+        data: this._readBuffer + frame.payload
+      });
       this._readBuffer = '';
     }
     else {

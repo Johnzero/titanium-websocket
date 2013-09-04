@@ -32,10 +32,18 @@ function MainWindow() {
 		bottom:0,
 		width: Titanium.UI.FILL, 
 		backgroundImage:"/grad.png",
-		zIndex : 600,
+		zIndex : 500,
 		height:"50dp"
 	});
 
+	var weixincont = Ti.UI.createLabel ({
+		zIndex : 600,
+		bottom:0,
+		left:"20dp",
+		height:"50dp",
+		width:"50dp",
+		backgroundColor:"transparent"
+	});
 	var weixin = Ti.UI.createButton({
 		backgroundImage : "/tab_weixin_pressed.png",
 		zIndex : 800,
@@ -48,7 +56,7 @@ function MainWindow() {
 		text:"微信",
 		textAlign: 'center',
 		backgroundColor:'transparent',
-		zIndex : 900,
+		zIndex : 800,
 		bottom:0,
 		left:"20dp",
 		width:"30dp",
@@ -58,7 +66,14 @@ function MainWindow() {
 		touchEnabled:false
 	});
 
-
+	var addresscont = Ti.UI.createLabel ({
+		zIndex : 600,
+		bottom:0,
+		left:"105dp",
+		height:"50dp",
+		width:"50dp",
+		backgroundColor:"transparent"
+	});
 	var address = Ti.UI.createButton({
 		backgroundImage : "/tab_address_normal.png",
 		zIndex : 800,
@@ -81,6 +96,14 @@ function MainWindow() {
 		}
 	});
 
+	var friendscont = Ti.UI.createLabel ({
+		zIndex : 600,
+		bottom:0,
+		left:"187dp",
+		height:"50dp",
+		width:"50dp",
+		backgroundColor:"transparent"
+	});
 	var friends = Ti.UI.createButton({
 		backgroundImage : "/tab_find_frd_normal.png",
 		zIndex : 800,
@@ -103,6 +126,14 @@ function MainWindow() {
 		touchEnabled:false
 	});
 
+	var settingscont = Ti.UI.createLabel ({
+		zIndex : 600,
+		bottom:0,
+		right:"20dp",
+		height:"50dp",
+		width:"50dp",
+		backgroundColor:"transparent"
+	});
 	var settings = Ti.UI.createButton({
 		backgroundImage : "/tab_settings_normal.png",
 		zIndex : 800,
@@ -125,7 +156,7 @@ function MainWindow() {
 		touchEnabled:false
 	});
 
-	weixin.addEventListener("click",function () {
+	weixincont.addEventListener("click",function () {
 
 		if (weixin.backgroundImage == "/tab_weixin_pressed.png") {
 			return ;
@@ -141,7 +172,7 @@ function MainWindow() {
 
 	});
 
-	address.addEventListener("click",function () {
+	addresscont.addEventListener("click",function () {
 
 		if (address.backgroundImage == "/tab_address_pressed.png") {
 			return ;
@@ -158,7 +189,7 @@ function MainWindow() {
 
 	});
 
-	friends.addEventListener("click",function () {
+	friendscont.addEventListener("click",function () {
 
 		if (friends.backgroundImage == "/tab_find_frd_pressed.png") {
 			return ;
@@ -171,10 +202,10 @@ function MainWindow() {
 
 		hideview();
 		friendsview.visible = true;
-		
+
 	});
 
-	settings.addEventListener("click",function () {
+	settingscont.addEventListener("click",function () {
 		
 		if (settings.backgroundImage == "/tab_settings_pressed.png") {
 			return ;
@@ -187,12 +218,20 @@ function MainWindow() {
 	});
 
 	self.add(bottom);
+
+	self.add(weixincont);
 	self.add(weixin);
 	self.add(weixinlabel);
+
+	self.add(addresscont);
 	self.add(address);
 	self.add(addresslabel);
+	
+	self.add(friendscont);
 	self.add(friends);
 	self.add(friendslabel);
+
+	self.add(settingscont);
 	self.add(settings);
 	self.add(settingslabel);
 

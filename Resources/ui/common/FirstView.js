@@ -7,42 +7,12 @@ function FirstView() {
 		visible:true
 	});
 
-	var createNotificationViaService = require('lib/intent');
-
-	// Create button for launching an immedaite notification
-	var button = Ti.UI.createButton({
-		title: 'Immediate Notification',
-		height: '50dp',
-		width: '200dp',
-		top: '50dp'
-	});
-	button.addEventListener('click', function(e) {
-		createNotificationViaService('Fired immediate notification!');
-	});
-
-	// Create button for launching a notification that will be launched
-	// 4 seconds after we create it.
-	var button2 = Ti.UI.createButton({
-		title: 'Pending Notification (4 sec)',
-		height: '50dp',
-		width: '200dp',
-		top: '15dp'
-	});
-	button2.addEventListener('click', function(e) {
-		var now = new Date().getTime()
-	    var delta = new Date( now + (4 * 1000) );
-	    createNotificationViaService('Fired pending notification!', delta - now);
-	});
-
-
-	self.add(button);
-	self.add(button2);
 
 	logarea = Titanium.UI.createTextArea({
 	    backgroundColor: "#eee",
 	    value: '',
 	    editable: false,
-	    top: 200,
+	    top: "300dpp",
 	    left: 0,
 	    right: 0,
 	    bottom: 0
@@ -57,9 +27,10 @@ function FirstView() {
 	    borderStyle: Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
 	    width: "200dp",
 	    height: "40dp",
-	    top: "300dp",
+	    top: "340dp",
 	    left: 5,
 	    value:"Hello World From Titanium!"
+	    // value:"是"
 	});
 	self.add(messageField);
 
@@ -72,7 +43,7 @@ function FirstView() {
 	    textAlign: 'center',
 	    width: 70,
 	    height: "40dp",
-	    top: "300dp",
+	    top: "340dp",
 	    right: 5
 	});
 	self.add(sendBtn);

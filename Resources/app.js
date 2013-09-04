@@ -50,7 +50,10 @@ if (Ti.version < 1.8 ) {
 		var isRunning = Ti.App.Properties.getBool("service_running", false);
 
 		if (!isRunning) {
-			log("检查网络!");
+			
+			var service = Titanium.Android.createService(intent);
+
+			service.start();
 		}
 
 	}else {

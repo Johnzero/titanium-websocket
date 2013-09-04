@@ -25,6 +25,9 @@ ws.onclose = function () {
 };
 
 ws.onmessage = function (message) {
+
+    message.data = unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,''));
+    
     if (IsBackground) {
         var createNotificationViaService = require('lib/intent');
         new createNotificationViaService(message.data);
@@ -76,7 +79,7 @@ send = function(message) {
 
 log = function(str) {
 	logarea.value += str + "\n";
-	if (logarea.value.length > 180) {
+	if (logarea.value.length > 400) {
 		logarea.value = "";
 	}
 };
