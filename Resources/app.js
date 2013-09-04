@@ -42,23 +42,30 @@ if (Ti.version < 1.8 ) {
 		}
 	}
 
-	var isRunning = Ti.App.Properties.getBool("service_running", false);
+	var intent = Titanium.Android.createServiceIntent( { url: 'websocket.js' } );
 
-	if (!isRunning) {
+	if( Ti.Android.isServiceRunning(intent) ) {
 
-		var intent = Titanium.Android.createServiceIntent( { url: 'websocket.js' } );
+		var connect = ws._connect();
+		var isRunning = Ti.App.Properties.getBool("service_running", false);
 
-		var service = Titanium.Android.createService(intent);
+		if (!isRunning) {
+			log("检查网络!");
+		}
+
+	}else {
 		
-		service.addEventListener('resume', function(e) {
-
-		});
-		service.addEventListener('pause', function(e) {
-		});
+		var service = Titanium.Android.createService(intent);
 
 		service.start();
 
 	};
+
+	// service.addEventListener('resume', function(e) {
+	// });
+	// service.addEventListener('pause', function(e) {
+	// });
+
 	
 	// var NavigationController = require('/lib/NavigationController').NavigationController;
 

@@ -1,7 +1,11 @@
 //FirstView Component Constructor
 function ChatView() {
 	//create object instance, a parasitic subclass of Observable
-	var self = Ti.UI.createView();
+	var self = Ti.UI.createView({
+		accessibilityLabel:"chatview",
+		accessibilityHint: "view",
+		visible:true
+	});
 
 	var createNotificationViaService = require('lib/intent');
 	
