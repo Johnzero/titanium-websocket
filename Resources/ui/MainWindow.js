@@ -39,9 +39,9 @@ function MainWindow() {
 	var weixincont = Ti.UI.createLabel ({
 		zIndex : 600,
 		bottom:0,
-		left:"20dp",
+		left:"10dp",
 		height:"50dp",
-		width:"50dp",
+		width:"80dp",
 		backgroundColor:"transparent"
 	});
 	var weixin = Ti.UI.createButton({
@@ -71,7 +71,7 @@ function MainWindow() {
 		bottom:0,
 		left:"105dp",
 		height:"50dp",
-		width:"50dp",
+		width:"70dp",
 		backgroundColor:"transparent"
 	});
 	var address = Ti.UI.createButton({
@@ -101,7 +101,7 @@ function MainWindow() {
 		bottom:0,
 		left:"187dp",
 		height:"50dp",
-		width:"50dp",
+		width:"70dp",
 		backgroundColor:"transparent"
 	});
 	var friends = Ti.UI.createButton({
@@ -131,7 +131,7 @@ function MainWindow() {
 		bottom:0,
 		right:"20dp",
 		height:"50dp",
-		width:"50dp",
+		width:"60dp",
 		backgroundColor:"transparent"
 	});
 	var settings = Ti.UI.createButton({
@@ -148,7 +148,7 @@ function MainWindow() {
 		backgroundColor:'transparent',
 		zIndex : 900,
 		bottom:0,
-		right:"20dp",
+		right:"18dp",
 		width:"40dp",
 	    font: {
 		    fontSize: '11dp'
@@ -163,6 +163,7 @@ function MainWindow() {
 		};
 
 		weixin.backgroundImage = "/tab_weixin_pressed.png";
+		// weixincont.backgroundImage = "/tab_bg2.png";
 		address.backgroundImage = "/tab_address_normal.png";
 		friends.backgroundImage = "/tab_find_frd_normal.png";
 		settings.backgroundImage = "/tab_settings_normal.png";
@@ -179,6 +180,7 @@ function MainWindow() {
 		};
 
 		weixin.backgroundImage = "/tab_weixin_normal.png";
+		// addresscont.backgroundImage = "/tab_bg2.png";
 		address.backgroundImage = "/tab_address_pressed.png";
 		friends.backgroundImage = "/tab_find_frd_normal.png";
 		settings.backgroundImage = "/tab_settings_normal.png";
@@ -196,6 +198,7 @@ function MainWindow() {
 		};
 
 		weixin.backgroundImage = "/tab_weixin_normal.png";
+		// friendscont.backgroundImage = "/tab_bg2.png";
 		address.backgroundImage = "/tab_address_normal.png";
 		friends.backgroundImage = "/tab_find_frd_pressed.png";
 		settings.backgroundImage = "/tab_settings_normal.png";
@@ -212,9 +215,18 @@ function MainWindow() {
 		};
 
 		weixin.backgroundImage = "/tab_weixin_normal.png";
+		// settingscont.backgroundImage = "/tab_bg2.png";
 		address.backgroundImage = "/tab_address_normal.png";
 		friends.backgroundImage = "/tab_find_frd_normal.png";
 		settings.backgroundImage = "/tab_settings_pressed.png";
+
+		var SettingsView = require('ui/common/SettingsView');
+		var settingsview = new SettingsView();
+
+		hideview();
+
+		settingsview.visible = true;
+
 	});
 
 	self.add(bottom);

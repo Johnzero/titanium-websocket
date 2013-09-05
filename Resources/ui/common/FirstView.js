@@ -25,7 +25,7 @@ function FirstView() {
 
 	var messageField = Ti.UI.createTextField({
 	    borderStyle: Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-	    width: "200dp",
+	    width: "300dp",
 	    height: "40dp",
 	    top: "340dp",
 	    left: 5,
