@@ -50,7 +50,7 @@ function FirstView() {
 	sendBtn.addEventListener('click', function() {
 	    var v = messageField.value;
 	    log('< ' + v);
-	    ws.send(v);
+	    send(v,'text');
 	    messageField.blur();
 	});
 

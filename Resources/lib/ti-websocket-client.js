@@ -179,8 +179,8 @@ var SHA1 = (function(){
     // '0' padding 
     if (bits.length < 32) bits = arguments.callee.ZERO32.substr(0, 32 - bits.length) + bits;
     // split by 8 bits
-    return bits.replace(/(¥d{8})/g, '$1 ')
-               .replace(/^¥s*(.*?)¥s*$/, '$1');
+    return bits.replace(/(楼d{8})/g, '$1 ')
+               .replace(/^楼s*(.*?)楼s*$/, '$1');
   }
   Spec.describe("sha1", {
     "strfbits": function() {
@@ -652,6 +652,7 @@ var CLOSED = 3;
 
 var BUFFER_SIZE = 65536;
 var CLOSING_TIMEOUT = 1000;
+var times = 1;
 
 var WebSocket = function(url, protocols, origin, extensions) {
   this.url = url;
@@ -679,23 +680,25 @@ var WebSocket = function(url, protocols, origin, extensions) {
 
   this._connect();
 };
+
 exports.WebSocket = WebSocket;
+
 WebSocket.prototype = new events.EventEmitter();
 
 WebSocket.prototype.onopen = function() {
-  // NO OP
+
 };
 
 WebSocket.prototype.onmessage = function() {
-  // NO OP
+    
 };
 
 WebSocket.prototype.onerror = function() {
-  // NO OP
+
 };
 
 WebSocket.prototype.onclose = function() {
-  // NO OP
+
 };
 
 WebSocket.prototype._parse_url = function() {

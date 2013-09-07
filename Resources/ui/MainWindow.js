@@ -3,6 +3,8 @@ function MainWindow() {
 
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#222',
+		width : Ti.UI.SIZE,
+		height : Ti.UI.SIZE,
 		exitOnClose:false,
 		// modal:true,
 		activity : {
@@ -37,7 +39,7 @@ function MainWindow() {
 	});
 
 	var weixincont = Ti.UI.createLabel ({
-		zIndex : 600,
+		zIndex : 1000,
 		bottom:0,
 		left:"10dp",
 		height:"50dp",
@@ -67,7 +69,7 @@ function MainWindow() {
 	});
 
 	var addresscont = Ti.UI.createLabel ({
-		zIndex : 600,
+		zIndex : 1000,
 		bottom:0,
 		left:"105dp",
 		height:"50dp",
@@ -97,7 +99,7 @@ function MainWindow() {
 	});
 
 	var friendscont = Ti.UI.createLabel ({
-		zIndex : 600,
+		zIndex : 1000,
 		bottom:0,
 		left:"187dp",
 		height:"50dp",
@@ -127,7 +129,7 @@ function MainWindow() {
 	});
 
 	var settingscont = Ti.UI.createLabel ({
-		zIndex : 600,
+		zIndex : 1000,
 		bottom:0,
 		right:"20dp",
 		height:"50dp",

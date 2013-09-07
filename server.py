@@ -54,16 +54,17 @@ class MsgServerProtocol(WebSocketServerProtocol):
       print self.peerstr,"Connected!"
 
    def onMessage(self, msg, binary):
+      print msg
+      msg =  eval(msg)
       for client in Msg_CLIENT_POOL:
-         client.sendMessage("<SMsg : >" + msg + "------------------------", binary)
+         client.sendMessage("<SMsg : >" + msg['message'] + "------------------------", binary)
 
    def connectionLost(self, reason):
-      # WebSocketServerProtocol.connectionLost(self, reason)
-      print reason
+      Msg_CLIENT_POOL.remove(self)
       print 'connectionLost'
 
    def onClose(self, wasClean, code, reason):
-      # Msg_CLIENT_POOL.remove(self)
+      Msg_CLIENT_POOL.remove(self)
       print 'CLose';
 
 
@@ -116,7 +117,6 @@ if __name__ == "__main__":
    msgFactory.protocol = MsgServerProtocol
    msgFactory.setProtocolOptions(allowHixie76 = True) # needed if Hixie76 is to be supported
    msgResource = WebSocketResource(msgFactory)
-
    imgFactory = WebSocketServerFactory(IP,
                                       debug = debug,
                                       debugCodePaths = debug)
