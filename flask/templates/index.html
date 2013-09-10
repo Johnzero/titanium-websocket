@@ -1,0 +1,54 @@
+<!doctype html public>
+<!--[if lt IE 7]> <html lang="en-us" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html lang="en-us" class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html lang="en-us" class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en-us"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+
+  <meta name="viewport" content="width=device-width">
+  <script>
+
+  var ws = new WebSocket('ws://120.209.194.240:8080/msg');
+
+  ws.onopen = function() {
+      send(Math.random(),"text");
+	};
+	ws.onclose = function() {
+		// alert('asdf');
+	};
+
+  send = function(message,type) {
+
+    message = message.replace(/[^\u0000-\u00FF]/g,function($0){return escape($0).replace(/(%u)(\w{4})/gi,"&#x$2;")}); 
+    
+    ws.send(
+          "{'send':1,'type':" + "'" + type + "'" + ",'message':" + "'" + message + "'" + ",'random':" + Math.random() + "}"
+        );
+
+    // if (ws.readyState !== 1) {
+    //     ws.close();
+    //     ws = new WebSocket(uri,['WebManagerSocket',]);
+    //     if (ws.readyState !== 1) {
+    //      alert("网络异常，请重新连接！");
+    //      return ;
+    //     };
+    //     setTimeout(function() {
+    //         data();
+    //     }, 250);
+    // } else {
+    //     data();
+    // };
+
+};
+
+  </script>
+</head>
+<body>
+
+  
+
+</body>
+</html>

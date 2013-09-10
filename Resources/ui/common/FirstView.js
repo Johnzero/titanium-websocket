@@ -25,11 +25,11 @@ function FirstView() {
 
 	var messageField = Ti.UI.createTextField({
 	    borderStyle: Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-	    width: "300dp",
+	    width: "280dp",
 	    height: "40dp",
 	    top: "340dp",
 	    left: 5,
-	    value:"Hello World From Titanium!"
+	    value:"Hello World From 泰坦!"
 	    // value:"是"
 	});
 	self.add(messageField);

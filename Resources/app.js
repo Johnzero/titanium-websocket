@@ -42,23 +42,16 @@ if (Ti.version < 1.8 ) {
 		}
 	}
 
-	var intent = Titanium.Android.createServiceIntent( { url: 'websocket.js' } );
+	var intents = Titanium.Android.createServiceIntent( { url: 'websocket.js' } );
 
-	if( Ti.Android.isServiceRunning(intent) ) {
+	if( Ti.Android.isServiceRunning(intents) ) {
 
-		var connect = ws._connect();
+		// var connect = ws._connect();
 		var isRunning = Ti.App.Properties.getBool("service_running", false);
-
-		if (!isRunning) {
-			
-			var service = Titanium.Android.createService(intent);
-
-			service.start();
-		}
 
 	}else {
 		
-		var service = Titanium.Android.createService(intent);
+		var service = Titanium.Android.createService(intents);
 
 		service.start();
 

@@ -1024,8 +1024,6 @@ function isChinese(temp)
 
 WebSocket.prototype.send = function(data) {
 
-  data = data.replace(/[^\u0000-\u00FF]/g,function($0){return escape($0).replace(/(%u)(\w{4})/gi,"&#x$2;")}); 
-  Ti.API.warn(data);
 
   if(data && this.readyState === OPEN) {
     var buffer = Ti.createBuffer({ value: data });
@@ -1039,10 +1037,16 @@ WebSocket.prototype.send = function(data) {
 
       frame = this._create_frame(0x01, string);
 
-      if(0 < this._socket.write(frame)){
+      try{
+        if(0 < this._socket.write(frame)){
 
-        return true;
+          return true;
 
+        }
+      }
+      catch(e){
+
+        this._connect();
       }
 
       return false;

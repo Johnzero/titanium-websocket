@@ -12,7 +12,9 @@ var ConnectState = 0;
 
 send = function(message,type) {
 
-        ws.send(
+    message = message.replace(/[^\u0000-\u00FF]/g,function($0){return escape($0).replace(/(%u)(\w{4})/gi,"&#x$2;")}); 
+    
+    ws.send(
         	"{'send':1,'type':" + "'" + type + "'" + ",'message':" + "'" + message + "'" + ",'random':" + Math.random() + "}"
         );
 
@@ -47,9 +49,7 @@ function bind(ws) {
         Ti.App.Properties.setBool("service_running", false);
         setTimeout(function() {
             log('cccccccc');
-            ws = null;
-            ws = new WebSocket(uri,['WebManagerSocket',]);
-            bind(ws);
+            ws._connect();
             times = times * 2;
         },100*times);
     };
@@ -78,10 +78,7 @@ function bind(ws) {
 
         log('Error: ' + (e ? JSON.stringify(e) : 'A unknown error occurred'));
         setTimeout(function() {
-            log('ddddddd');
-            ws = null;
-            ws = new WebSocket(uri,['WebManagerSocket',]);
-            bind(ws);
+            ws._connect();
             times = times * 2;
         },100*times);
     };
