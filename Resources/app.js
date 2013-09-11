@@ -27,7 +27,6 @@ if (Ti.version < 1.8 ) {
 	localhost = "120.209.194.240:8080";
 	IsBackground = false;
 
-
 	//considering tablet to have one dimension over 900px - this is imperfect, so you should feel free to decide
 	//yourself what you consider a tablet form factor for android
 	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
@@ -48,7 +47,7 @@ if (Ti.version < 1.8 ) {
 	else {
 		if (osname === 'android') {
 
-			if (!Ti.App.Properties.getBool("logins", false)) {
+			if (!Ti.App.Properties.getBool("login", false)) {
 
 				Window = require("/ui/LoginWindow");
 
@@ -58,9 +57,41 @@ if (Ti.version < 1.8 ) {
 
 			}
 
-
 		}
 	}
+	new Window().open();
+})();
+
+// Ti.Android.currentActivity.addEventListener('destroy', function(e) {
+// 	Ti.API.error('destroy');
+// });
+// Ti.Android.currentActivity.addEventListener('pause', function(e) {
+//     IsBackground = true;
+//     Ti.API.error('pause');
+// });
+// Ti.Android.currentActivity.addEventListener('resume', function(e) {
+//     IsBackground = false;
+//     Ti.API.error('resume');
+// });
+// Ti.Android.currentActivity.addEventListener('create', function(e) {
+// });
+// Ti.Android.currentActivity.addEventListener('start', function(e) {
+// });
+// Ti.Android.currentActivity.addEventListener('stop', function(e) {
+// 	Ti.API.error('stop');
+// });
+// Ti.Android.currentActivity.addEventListener('newintent', function(e) {
+// 	Ti.API.error('newintent');
+// });
+
+
+	
+
+
+
+
+
+
 
 	// Ti.App.Properties.getBool("login", false);
 
@@ -76,24 +107,3 @@ if (Ti.version < 1.8 ) {
 	// var controller = new NavigationController();
 
 	// controller.open(new Window(controller));
-	
-	new Window().open();
-
-	Ti.Android.currentActivity.addEventListener('destroy', function(e) {
-	});
-	Ti.Android.currentActivity.addEventListener('pause', function(e) {
-	    IsBackground = true;
-	});
-	Ti.Android.currentActivity.addEventListener('resume', function(e) {
-	    IsBackground = false;
-	});
-	Ti.Android.currentActivity.addEventListener('create', function(e) {
-	});
-	Ti.Android.currentActivity.addEventListener('start', function(e) {
-	});
-	Ti.Android.currentActivity.addEventListener('stop', function(e) {
-	});
-	Ti.Android.currentActivity.addEventListener('newintent', function(e) {
-	});
-
-})();

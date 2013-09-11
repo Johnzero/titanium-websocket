@@ -3,14 +3,15 @@ function MainWindow() {
 
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#222',
-		width : Ti.UI.SIZE,
-		height : Ti.UI.SIZE,
+		width : "100%",
+		height : "100%",
+		fullscreen: false,
 		// exitOnClose:false,
 		// modal:true,
 		activity : {
 			onCreateOptionsMenu : function(e) {
 				var menu = e.menu;
-				var m1 = menu.add({ title : 'Close Window' });
+				var m1 = menu.add({ title : '退出程序' });
 				m1.setIcon(Ti.Android.R.drawable.ic_menu_close_clear_cancel);
 				m1.addEventListener('click', function(e) {
 					Ti.Android.currentActivity.finish();
@@ -255,6 +256,11 @@ function MainWindow() {
 		});
 		intent.addCategory(Ti.Android.CATEGORY_HOME);
 		Ti.Android.currentActivity.startActivity(intent);
+		IsBackground = true;
+	});
+
+	self.addEventListener("focus",function(e){
+		IsBackground = false;
 	});
 	// self.addEventListener('android:home', function(){
 	// 	self.hide();
@@ -290,6 +296,8 @@ function MainWindow() {
 		service.start();
 
 	};
+
+
 
 	return self;
 				

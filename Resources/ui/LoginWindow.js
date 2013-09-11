@@ -36,7 +36,7 @@ function LoginWindow() {
 	// e.actInd.width = 210;
 
 	var username = Ti.UI.createTextField({
-		value:Math.ceil(Math.random()*35),
+		value:Math.ceil(Math.random()*100),
 		top : "100dp",
 		width : "300dp",
 		height : Ti.UI.SIZE
@@ -73,11 +73,10 @@ function LoginWindow() {
 
 	Ti.App.addEventListener("MainWindowOpen",function(e) {
 		self.close();
-		self = null;
-		alert("run");
 		Ti.App.Properties.setBool("login", true);
 		var Window = require("/ui/MainWindow");
 		new Window().open();
+
 
 	});
 
