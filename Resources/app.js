@@ -24,7 +24,9 @@ if (Ti.version < 1.8 ) {
 		height = Ti.Platform.displayCaps.platformHeight,
 		width = Ti.Platform.displayCaps.platformWidth;
 	
+	localhost = "120.209.194.240:8080";
 	IsBackground = false;
+
 
 	//considering tablet to have one dimension over 900px - this is imperfect, so you should feel free to decide
 	//yourself what you consider a tablet form factor for android
@@ -32,30 +34,36 @@ if (Ti.version < 1.8 ) {
 	
 	var Window;
 	if (isTablet) {
-		var Window = require('/ui/MainWindow');
+		if (!Ti.App.Properties.getBool("login", false)) {
+
+				Window = require("/ui/LoginWindow");
+
+			}else {
+
+				Window = require("/ui/MainWindow")
+
+			}
+
 	}
 	else {
 		if (osname === 'android') {
 
-			Window = require('/ui/MainWindow');
+			if (!Ti.App.Properties.getBool("logins", false)) {
+
+				Window = require("/ui/LoginWindow");
+
+			}else {
+
+				Window = require("/ui/MainWindow")
+
+			}
+
 
 		}
 	}
 
-	var intents = Titanium.Android.createServiceIntent( { url: 'websocket.js' } );
+	// Ti.App.Properties.getBool("login", false);
 
-	if( Ti.Android.isServiceRunning(intents) ) {
-
-		// var connect = ws._connect();
-		var isRunning = Ti.App.Properties.getBool("service_running", false);
-
-	}else {
-		
-		var service = Titanium.Android.createService(intents);
-
-		service.start();
-
-	};
 
 	// service.addEventListener('resume', function(e) {
 	// });

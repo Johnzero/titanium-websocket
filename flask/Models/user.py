@@ -10,7 +10,7 @@ from werkzeug import generate_password_hash, check_password_hash, cached_propert
 
 from flask.ext.sqlalchemy import BaseQuery
 from flask.ext.login import UserMixin
-from server import db
+from extensions import db
 
 class UserQuery(BaseQuery):
 
@@ -39,16 +39,16 @@ class User(db.Model, UserMixin):
     query_class = UserQuery
     
     # user roles
-    MEMBER = 100
+    ADMIN = 100
     RESELLER = 200
     EDITOR = 300
-    ADMIN = 400
-    FUGUANG = 200
-    FGA = 300
+    MEMBER = 400
+    # FUGUANG = 200
+    # FGA = 300
     
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Unicode(60), unique=True, nullable=False)
-    email = db.Column(db.String(150), unique=True, nullable=False)
+    email = db.Column(db.String(150), unique=False, nullable=False)
     date_joined = db.Column(db.DateTime, default=datetime.utcnow)
     role = db.Column(db.Integer, default=MEMBER)
     
@@ -97,22 +97,22 @@ class User(db.Model, UserMixin):
     def is_admin(self):
         return self.role >= self.ADMIN
     
-    @property
-    def is_fuguang(self):
-        return self.role >= self.FUGUANG
+    # @property
+    # def is_fuguang(self):
+    #     return self.role >= self.FUGUANG
     
-    @property
-    def is_fga(self):
-        return self.role >= self.FGA
+    # @property
+    # def is_fga(self):
+    #     return self.role >= self.FGA
     
     
-    @property
-    def system(self):
-        if self.role == self.FUGUANG:
-            return 'FUGUANG'
-        elif self.role == self.FGA:
-            return 'FGA'
-        return ''
+    # @property
+    # def system(self):
+    #     if self.role == self.FUGUANG:
+    #         return 'FUGUANG'
+    #     elif self.role == self.FGA:
+    #         return 'FGA'
+    #     return ''
 
     def check_openid(self, openid):
         if self.openid is None:

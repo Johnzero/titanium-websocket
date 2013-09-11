@@ -14,8 +14,12 @@ from twisted.web.wsgi import WSGIResource
 
 from flask import Flask, render_template,url_for,redirect,send_from_directory,request
 from flask.ext.sqlalchemy import SQLAlchemy
-import config
+from sqlalchemy.exc import IntegrityError
 
+import config
+from extensions import db,cache
+from Models import User
+# from createUser import createusers
 
 from autobahn.websocket import WebSocketServerFactory, \
                                WebSocketServerProtocol, listenWS
@@ -84,11 +88,25 @@ class ImgServerProtocol(WebSocketServerProtocol):
 app = Flask(__name__,static_folder='static')
 app.secret_key = str(uuid.uuid4())
 app.config.from_object('config')
-db = SQLAlchemy(app)
+db.init_app(app)
+db.app = app
 
 @app.route('/')
 def page_home():
    return render_template('index.html')
+
+@app.route('/register/<string:user_name>/<string:password>',methods = ['GET', 'POST'])
+def register(user_name,password):
+   try:
+      user = User(username=user_name,password=password,email="",role=400,active=1)
+      db.session.add(user)
+      db.session.commit()
+   except IntegrityError:
+      return "IntegrityError"
+   except:return "ServerError"
+
+   return "true"
+   # return render_template('index.html')
 
 @app.route('/scriptcam.lic')
 def static_from_root():
@@ -98,9 +116,9 @@ def static_from_root():
 if __name__ == "__main__":
 
    debug = True
-   # app.debug = debug
-   # if debug:
-   # log.startLogging(sys.stdout)
+   app.debug = debug
+   if debug:
+      log.startLogging(sys.stdout)
    
    ##
    ## create a Twisted Web resource for our WebSocket server
@@ -111,6 +129,7 @@ if __name__ == "__main__":
    msgFactory.protocol = MsgServerProtocol
    msgFactory.setProtocolOptions(allowHixie76 = True) # needed if Hixie76 is to be supported
    msgResource = WebSocketResource(msgFactory)
+
    imgFactory = WebSocketServerFactory(IP,
                                       debug = debug,
                                       debugCodePaths = debug)

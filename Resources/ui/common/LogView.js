@@ -1,5 +1,5 @@
 //FirstView Component Constructor
-function FirstView() {
+function LogView() {
 	//create object instance, a parasitic subclass of Observable
 	var self = Ti.UI.createView({
 		accessibilityLabel:"firstview",
@@ -12,7 +12,7 @@ function FirstView() {
 	    backgroundColor: "#eee",
 	    value: '',
 	    editable: false,
-	    top: 0,
+	    top: "300dpp",
 	    left: 0,
 	    right: 0,
 	    bottom: 0
@@ -57,4 +57,4 @@ function FirstView() {
 	return self;
 }
 
-module.exports = FirstView;
+module.exports = LogView;

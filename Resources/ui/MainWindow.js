@@ -5,18 +5,18 @@ function MainWindow() {
 		backgroundColor:'#222',
 		width : Ti.UI.SIZE,
 		height : Ti.UI.SIZE,
-		exitOnClose:false,
+		// exitOnClose:false,
 		// modal:true,
 		activity : {
-		onCreateOptionsMenu : function(e) {
-			var menu = e.menu;
-			var m1 = menu.add({ title : 'Close Window' });
-			m1.setIcon(Ti.Android.R.drawable.ic_menu_close_clear_cancel);
-			m1.addEventListener('click', function(e) {
-				Ti.Android.currentActivity.finish();
-			});
+			onCreateOptionsMenu : function(e) {
+				var menu = e.menu;
+				var m1 = menu.add({ title : 'Close Window' });
+				m1.setIcon(Ti.Android.R.drawable.ic_menu_close_clear_cancel);
+				m1.addEventListener('click', function(e) {
+					Ti.Android.currentActivity.finish();
+				});
+			}
 		}
-	}
 	});
 		
 	//construct UI
@@ -249,8 +249,15 @@ function MainWindow() {
 	self.add(settings);
 	self.add(settingslabel);
 
-	// self.addEventListener('android:back', function(){
-		
+	self.addEventListener('android:back', function(e){
+		var intent = Ti.Android.createIntent({
+		    action: Ti.Android.ACTION_MAIN
+		});
+		intent.addCategory(Ti.Android.CATEGORY_HOME);
+		Ti.Android.currentActivity.startActivity(intent);
+	});
+	// self.addEventListener('android:home', function(){
+	// 	self.hide();
 	// });
 
 	self.add(firstview);
@@ -268,6 +275,21 @@ function MainWindow() {
 			};
 		};
 	}
+
+	var intents = Titanium.Android.createServiceIntent( { url: 'websocket.js' } );
+
+	if( Ti.Android.isServiceRunning(intents) ) {
+
+		// var connect = ws._connect();
+		var isRunning = Ti.App.Properties.getBool("service_running", false);
+
+	}else {
+		
+		var service = Titanium.Android.createService(intents);
+
+		service.start();
+
+	};
 
 	return self;
 				

@@ -12,10 +12,13 @@ from Models import User
 
 from config import SQLALCHEMY_DATABASE_URI
 from config import SQLALCHEMY_MIGRATE_REPO
-from server import db
+from server import app
+from extensions import db
 
 import os.path
 
+db.init_app(app)
+db.app = app
 db.create_all()
 
 admin = User(username="john",email="",role=400,active=1,password="123")

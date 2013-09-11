@@ -43,7 +43,7 @@ function ChatView() {
 
 		button.addEventListener('click', function(e) {
 			// navController.home();
-			
+			Ti.Android.currentActivity.finish();
 		});
 					
 	self.add(button);
