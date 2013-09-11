@@ -386,7 +386,10 @@ var SHA1 = (function(){
 }());
 
 exports.SHA1 = SHA1; // add for node.js
+
 return exports;}()).SHA1;
+
+
 var Utils = (function(){var exports={};
 exports.read_byte = function(buffer, position) {
 	var data = Ti.Codec.decodeNumber({
@@ -467,7 +470,7 @@ exports.EventEmitter = EventEmitter;
 //
 // Obviously not all Emitters should be limited to 10. This function allows
 // that to be increased. Set to zero for unlimited.
-var defaultMaxListeners = 10;
+var defaultMaxListeners = 2;
 EventEmitter.prototype.setMaxListeners = function(n) {
   if (!this._events) { this._events = {}; }
   this._maxListeners = n;
@@ -720,6 +723,7 @@ var make_handshake_key = function() {
   }
   return "sN9cRrP/n9NdMgdcy2VJFQ==";
 };
+
 //handshake
 var make_handshake = function(host, path, origin, protocols, extensions, handshake) {
   str = "GET " + path + " HTTP/1.1\r\n";
@@ -741,7 +745,6 @@ var make_handshake = function(host, path, origin, protocols, extensions, handsha
   //if @compression
   //  extensions << "deflate-application-data"
   //end  
-  Ti.API.info(str);
   return str + "\r\n";
 };
 
@@ -757,6 +760,7 @@ WebSocket.prototype._read_http_headers = function() {
   var counter = 3;
   while(true) {
     var bytesRead = this._socket.read(buffer);
+    //159
     if(bytesRead > 0) {
       var lastStringLen = string.length;
       string += Ti.Codec.decodeString({
@@ -764,6 +768,7 @@ WebSocket.prototype._read_http_headers = function() {
         charset: Ti.Codec.CHARSET_ASCII
       });
       var eoh = string.match(/\r\n\r\n/);
+      
       if(eoh) {
         var offset = (eoh.index + 4) - lastStringLen;
         string = string.substring(0, offset-2);
@@ -980,6 +985,7 @@ var parse_frame = function(buffer, size) {
   }
   
   var byte1 = Utils.read_byte(buffer, 0);
+  Ti.API.info(byte1);
   var fin = !!(byte1 & 0x80);
   var opcode = byte1 & 0x0f;
   
