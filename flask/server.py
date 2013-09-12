@@ -117,8 +117,8 @@ if __name__ == "__main__":
 
    debug = True
    app.debug = debug
-   if debug:
-      log.startLogging(sys.stdout)
+   # if debug:
+   #    log.startLogging(sys.stdout)
    
    ##
    ## create a Twisted Web resource for our WebSocket server

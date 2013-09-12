@@ -985,7 +985,6 @@ var parse_frame = function(buffer, size) {
   }
   
   var byte1 = Utils.read_byte(buffer, 0);
-  Ti.API.info(byte1);
   var fin = !!(byte1 & 0x80);
   var opcode = byte1 & 0x0f;
   

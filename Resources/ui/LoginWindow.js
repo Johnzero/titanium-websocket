@@ -36,7 +36,7 @@ function LoginWindow() {
 	// e.actInd.width = 210;
 
 	var username = Ti.UI.createTextField({
-		value:Math.ceil(Math.random()*100),
+		value:Math.ceil(Math.random()*10000000),
 		top : "100dp",
 		width : "300dp",
 		height : Ti.UI.SIZE

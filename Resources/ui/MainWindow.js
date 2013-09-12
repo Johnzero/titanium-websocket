@@ -1,6 +1,15 @@
 //Application Window Component Constructor
 function MainWindow() {
 
+	var websocketIntent = Ti.Android.createServiceIntent( { url: 'websocket.js' } );
+	var service = Ti.Android.createService(websocketIntent);
+	if( Ti.Android.isServiceRunning(websocketIntent) ) {
+		// var connect = ws._connect();
+		var isRunning = Ti.App.Properties.getBool("service_running", false);
+	}else {
+		service.start();
+	};
+
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#222',
 		width : "100%",
@@ -14,6 +23,9 @@ function MainWindow() {
 				var m1 = menu.add({ title : '退出程序' });
 				m1.setIcon(Ti.Android.R.drawable.ic_menu_close_clear_cancel);
 				m1.addEventListener('click', function(e) {
+					ws._socket.close();
+					Ti.Android.stopService(websocketIntent);
+					Ti.App.Properties.setBool("login", false);
 					Ti.Android.currentActivity.finish();
 				});
 			}
@@ -281,23 +293,6 @@ function MainWindow() {
 			};
 		};
 	}
-
-	var intents = Titanium.Android.createServiceIntent( { url: 'websocket.js' } );
-
-	if( Ti.Android.isServiceRunning(intents) ) {
-
-		// var connect = ws._connect();
-		var isRunning = Ti.App.Properties.getBool("service_running", false);
-
-	}else {
-		
-		var service = Titanium.Android.createService(intents);
-
-		service.start();
-
-	};
-
-
 
 	return self;
 				
