@@ -1,6 +1,8 @@
 
 ws = null;
 
+Ti.API.info("-------------------");
+
 var uri = "ws://120.209.194.240:8080/msg";
 var times = 1;
 var WebSocket = require('/lib/ti-websocket-client').WebSocket;
@@ -47,11 +49,6 @@ function bind(ws) {
     ws.onclose = function () {
         log("连接断开！");
         Ti.App.Properties.setBool("service_running", false);
-        setTimeout(function() {
-            log('cccccccc');
-            ws._connect();
-            times = times * 2;
-        },100*times);
     };
 
     ws.onmessage = function (message) {

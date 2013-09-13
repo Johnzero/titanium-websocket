@@ -1322,11 +1322,66 @@ WebSocket.prototype.close = function(code, message) {
   }
 };
 
+WebSocket.prototype.clearclose = function(code, message) {
+  if(this.readyState === OPEN) {
+    this.readyState = CLOSING;
+    
+    var buffer = Ti.createBuffer({ length: BUFFER_SIZE });
+    
+    Ti.Codec.encodeNumber({
+      source: code || 1000,
+      dest: buffer,
+      position: 0,
+      type: Ti.Codec.TYPE_SHORT,
+      byteOrder: Ti.Codec.BIG_ENDIAN
+    });
+    
+    if(message) {
+      var length = Ti.Codec.encodeString({
+        source: message,
+        dest: buffer,
+        destPosition: 2
+      });
+      buffer.length = 2 + length;
+    }
+    else {
+      buffer.length = 2;
+    }
+    
+    var payload = Ti.Codec.decodeString({
+      source: buffer,
+      charset: Ti.Codec.CHARSET_ASCII
+    });
+    this._socket.write(this._create_frame(0x08, payload));
+  }
+  this.readyState = CLOSING;
+
+  if(this._closingTimer) {
+    clearTimeout(this._closingTimer);
+  }
+  this._closingTimer = undefined;
+
+  this._readBuffer = '';
+  this._socketReadBuffer = undefined;
+  
+  var ev;
+  if(this.readyState === CLOSING) {
+    this.readyState = CLOSED;
+    this._socket.close();
+    ev = {
+      code: 1000,
+      wasClean: true,
+      reason: ""
+    };
+    this.emit("close", ev);
+  }
+  this._socket = undefined;
+};
+
 WebSocket.prototype._connect = function() {
   if(this.readyState === OPEN || this.readyState === CLOSING) {
     return false;
   }
-
   var self = this;
   this._socket = Ti.Network.Socket.createTCP({
     host: this._host,

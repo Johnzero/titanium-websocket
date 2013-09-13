@@ -8,7 +8,12 @@ function register(path,method,username,password) {
 		onload : function(e) {
 		    var data = this.responseText;
 		    if (data == "true") {
-				Ti.App.fireEvent("MainWindowOpen",{});
+		    	// Ti.API.info(Ti.Android.currentActivity);
+		    	// Ti.API.info(Ti.UI.currentWindow);
+		    	Ti.UI.currentWindow.close();
+				Ti.App.Properties.setBool("login", true);
+				var mainWindow = require("/ui/MainWindow");
+				new mainWindow().open();
 		    }else if (data == "IntegrityError") {
 		    	alert("换个姓名试试！");
 		    }else if (data == "ServerError") {

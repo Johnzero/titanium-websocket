@@ -5,17 +5,8 @@ function LoginWindow() {
 		backgroundImage : "/login.png",
 		width : Ti.UI.SIZE,
 		height : Ti.UI.SIZE,
-		fullscreen: true,
-		activity : {
-			onCreateOptionsMenu : function(e) {
-				var menu = e.menu;
-				var m1 = menu.add({ title : '退出程序' });
-				m1.setIcon(Ti.Android.R.drawable.ic_menu_close_clear_cancel);
-				m1.addEventListener('click', function(e) {
-					Ti.Android.currentActivity.finish();
-				});
-			}
-		}
+		fullscreen: false,
+		exitOnclose:true,
 	});
 
 	// 	e.actInd = Titanium.UI.createActivityIndicator({
@@ -36,7 +27,7 @@ function LoginWindow() {
 	// e.actInd.width = 210;
 
 	var username = Ti.UI.createTextField({
-		value:Math.ceil(Math.random()*10000000),
+		value:Math.ceil(Math.random()*100000000),
 		top : "100dp",
 		width : "300dp",
 		height : Ti.UI.SIZE
@@ -51,6 +42,7 @@ function LoginWindow() {
 	var register = Ti.UI.createButton({
 		top : "200dp",
 		left: "100dp",
+		width:"50dp",
 		title : "注册"
 	});
 	var login = Ti.UI.createButton({
@@ -64,24 +56,13 @@ function LoginWindow() {
 	});
 
 	register.addEventListener("click", function () {
-
 		var register = require("/lib/register");
 		var registerfunc = new register("register","POST",username.value,password.value);
-		
-	});
-
-
-	Ti.App.addEventListener("MainWindowOpen",function(e) {
-		self.close();
-		Ti.App.Properties.setBool("login", true);
-		var Window = require("/ui/MainWindow");
-		new Window().open();
-
-
 	});
 
 	// self.add(imageLeft);
 	// self.add(imageRight);
+	
 	self.add(username);
 	self.add(password);
 	self.add(login);

@@ -2,11 +2,14 @@
 function MainWindow() {
 
 	var websocketIntent = Ti.Android.createServiceIntent( { url: 'websocket.js' } );
-	var service = Ti.Android.createService(websocketIntent);
 	if( Ti.Android.isServiceRunning(websocketIntent) ) {
 		// var connect = ws._connect();
+		if ("undefined" == typeof(ws)) {
+			Ti.include('/websocket.js');
+		};
 		var isRunning = Ti.App.Properties.getBool("service_running", false);
 	}else {
+		var service = Ti.Android.createService(websocketIntent);
 		service.start();
 	};
 
@@ -15,7 +18,7 @@ function MainWindow() {
 		width : "100%",
 		height : "100%",
 		fullscreen: false,
-		// exitOnClose:false,
+		// exitOnClose: false,
 		// modal:true,
 		activity : {
 			onCreateOptionsMenu : function(e) {
@@ -23,8 +26,9 @@ function MainWindow() {
 				var m1 = menu.add({ title : '退出程序' });
 				m1.setIcon(Ti.Android.R.drawable.ic_menu_close_clear_cancel);
 				m1.addEventListener('click', function(e) {
-					ws._socket.close();
 					Ti.Android.stopService(websocketIntent);
+					ws.close();
+					ws = undefined;
 					Ti.App.Properties.setBool("login", false);
 					Ti.Android.currentActivity.finish();
 				});

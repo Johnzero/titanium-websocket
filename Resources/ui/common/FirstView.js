@@ -25,9 +25,9 @@ function FirstView() {
 
 	var messageField = Ti.UI.createTextField({
 	    borderStyle: Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-	    width: "280dp",
+	    width: Ti.UI.width,
 	    height: "40dp",
-	    top: "340dp",
+	    bottom: "50dp",
 	    left: 5,
 	    value:"Hello World From 泰坦!"
 	});
@@ -42,7 +42,7 @@ function FirstView() {
 	    textAlign: 'center',
 	    width: 70,
 	    height: "40dp",
-	    top: "340dp",
+	    bottom: "50dp",
 	    right: 5
 	});
 	self.add(sendBtn);

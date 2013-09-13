@@ -30,35 +30,24 @@ if (Ti.version < 1.8 ) {
 	//considering tablet to have one dimension over 900px - this is imperfect, so you should feel free to decide
 	//yourself what you consider a tablet form factor for android
 	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
-	
+
 	var Window;
-	if (isTablet) {
-		if (!Ti.App.Properties.getBool("login", false)) {
 
-				Window = require("/ui/LoginWindow");
+	// if (osname === 'android') {
 
-			}else {
+	if (!Ti.App.Properties.getBool("login", false)) {
 
-				Window = require("/ui/MainWindow")
+		Window = require("/ui/LoginWindow");
 
-			}
+	}else {
+
+		Window = require("/ui/MainWindow")
 
 	}
-	else {
-		if (osname === 'android') {
 
-			if (!Ti.App.Properties.getBool("login", false)) {
+	// }
 
-				Window = require("/ui/LoginWindow");
 
-			}else {
-
-				Window = require("/ui/MainWindow")
-
-			}
-
-		}
-	}
 	new Window().open();
 })();
 
