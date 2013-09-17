@@ -26,13 +26,13 @@ function LoginWindow() {
 	// e.actInd.message = 'Loading...';
 	// e.actInd.width = 210;
 
-	var username = Ti.UI.createTextField({
+	var usernameField = Ti.UI.createTextField({
 		value:Math.ceil(Math.random()*100000000),
 		top : "100dp",
 		width : "300dp",
 		height : Ti.UI.SIZE
 	});
-	var password = Ti.UI.createTextField({
+	var passwordField = Ti.UI.createTextField({
 		value:"123",
 		top : "150dp",
 		width : "300dp",
@@ -57,14 +57,14 @@ function LoginWindow() {
 
 	register.addEventListener("click", function () {
 		var register = require("/lib/register");
-		var registerfunc = new register("register","POST",username.value,password.value);
+		var registerfunc = new register("register","POST",usernameField.value,passwordField.value);
 	});
 
 	// self.add(imageLeft);
 	// self.add(imageRight);
 	
-	self.add(username);
-	self.add(password);
+	self.add(usernameField);
+	self.add(passwordField);
 	self.add(login);
 	self.add(register);
 

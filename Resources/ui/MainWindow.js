@@ -13,11 +13,16 @@ function MainWindow() {
 		service.start();
 	};
 
+	var networkIsOnline, networkType;
+ 
+
+
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#222',
 		width : "100%",
 		height : "100%",
 		fullscreen: false,
+		title:username || "You",
 		// exitOnClose: false,
 		// modal:true,
 		activity : {
@@ -30,6 +35,7 @@ function MainWindow() {
 					ws.close();
 					ws = undefined;
 					Ti.App.Properties.setBool("login", false);
+					Ti.App.Properties.setList("user", []);
 					Ti.Android.currentActivity.finish();
 				});
 			}
@@ -278,6 +284,15 @@ function MainWindow() {
 	self.addEventListener("focus",function(e){
 		IsBackground = false;
 	});
+	self.addEventListener("open",function(e) {
+		self.activity.addEventListener('pause', function(e) {
+		    IsBackground = true;
+		});
+		self.activity.addEventListener('resume', function(e) {
+		    IsBackground = false;
+		});
+	})
+
 	// self.addEventListener('android:home', function(){
 	// 	self.hide();
 	// });
@@ -297,6 +312,16 @@ function MainWindow() {
 			};
 		};
 	}
+
+	Ti.Network.addEventListener('change', function(e) {
+	  networkIsOnline = e.online;
+	  networkType = e.networkType;
+	  if (networkIsOnline && ConnectState == 0) {
+	  	// ws._connect();
+	  };
+	});
+
+
 
 	return self;
 				

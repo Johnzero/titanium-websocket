@@ -26,6 +26,9 @@ if (Ti.version < 1.8 ) {
 	
 	localhost = "120.209.194.240:8080";
 	IsBackground = false;
+	username = '';
+	password = '';
+	ConnectState = 0;
 
 	//considering tablet to have one dimension over 900px - this is imperfect, so you should feel free to decide
 	//yourself what you consider a tablet form factor for android
@@ -41,14 +44,21 @@ if (Ti.version < 1.8 ) {
 
 	}else {
 
-		Window = require("/ui/MainWindow")
+		var userInfo = Ti.App.Properties.getList("user",false);
+		if (userInfo) {
+		    if (userInfo[0]) {
+		        username = userInfo[0]["username"];
+		        password = userInfo[0]["password"];
+		    }else {ws.close();};
+		}else {ws.close();};
+		Window = require("/ui/MainWindow");
 
 	}
 
 	// }
 
-
 	new Window().open();
+
 })();
 
 // Ti.Android.currentActivity.addEventListener('destroy', function(e) {

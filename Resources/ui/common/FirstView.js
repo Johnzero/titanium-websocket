@@ -4,9 +4,13 @@ function FirstView() {
 	var self = Ti.UI.createView({
 		accessibilityLabel:"firstview",
 		accessibilityHint: "view",
+		backgroundColor:"white",
 		visible:true
 	});
 
+	var listView = Ti.UI.createListView({
+
+	});
 
 	logarea = Titanium.UI.createTextArea({
 	    backgroundColor: "#eee",
@@ -52,6 +56,7 @@ function FirstView() {
 	    send(v,'text');
 	    messageField.blur();
 	});
+	// self.add(listView);
 
 	return self;
 }

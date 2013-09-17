@@ -1,8 +1,6 @@
 
 ws = null;
 
-Ti.API.info("-------------------");
-
 var uri = "ws://120.209.194.240:8080/msg";
 var times = 1;
 var WebSocket = require('/lib/ti-websocket-client').WebSocket;
@@ -10,7 +8,13 @@ var WebSocket = require('/lib/ti-websocket-client').WebSocket;
 ws = new WebSocket(uri,['WebManagerSocket',]);
 bind(ws);
 
-var ConnectState = 0;
+var userInfo = Ti.App.Properties.getList("user",false);
+if (userInfo) {
+    if (userInfo[0]) {
+        username = userInfo[0]["username"];
+        password = userInfo[0]["password"];
+    }else {ws.close();};
+}else {ws.close();};
 
 send = function(message,type) {
 
@@ -40,14 +44,17 @@ send = function(message,type) {
 function bind(ws) {
 
     ws.onopen = function () {
+
         log("Connected");
         times = 1;
         ConnectState = 1;
         Ti.App.Properties.setBool("service_running", true);
     };
 
-    ws.onclose = function () {
+    ws.onclose = function (e) {
+        log(e);
         log("连接断开！");
+        ConnectState = 0;
         Ti.App.Properties.setBool("service_running", false);
     };
 
@@ -67,12 +74,17 @@ function bind(ws) {
     };
 
     ws.onerror = function (e) {
+        log(e);
+        ConnectState = 0;
         Ti.App.Properties.setBool("service_running", false);
         if (ConnectState == 1) {
             ws.onclose();
+            setTimeout(function() {
+                ws._connect();
+                // times = times * 2;
+            },500*times);
             return ;
         };
-
         log('Error: ' + (e ? JSON.stringify(e) : 'A unknown error occurred'));
         setTimeout(function() {
             ws._connect();
@@ -88,7 +100,6 @@ log = function(str) {
         logarea.value = "";
     }
 };
-
 
 
 // var message = {

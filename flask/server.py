@@ -61,7 +61,7 @@ class MsgServerProtocol(WebSocketServerProtocol):
 
    def onClose(self, wasClean, code, reason):
       Msg_CLIENT_POOL.remove(self)
-      print 'CLose';
+      print 'Close';
 
 
 class ImgServerProtocol(WebSocketServerProtocol):

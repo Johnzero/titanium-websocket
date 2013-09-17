@@ -16,8 +16,8 @@
   ws.onopen = function() {
       send(Math.random().toString(),"text");
 	};
-	ws.onclose = function() {
-		// alert('asdf');
+	ws.onclose = function(e) {
+		console.log(e);
 	};
 
   send = function(message,type) {
