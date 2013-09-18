@@ -980,6 +980,7 @@ WebSocket.prototype._mask_payload = function(out, outIndex, payload) {
 };
 
 var parse_frame = function(buffer, size) {
+  Ti.API.error(buffer);
   if(size < 3) {
     return undefined;
   }
@@ -1387,7 +1388,7 @@ WebSocket.prototype._connect = function() {
     host: this._host,
     port: this._port,
     mode: Ti.Network.READ_WRITE_MODE,
-    timeout : 10000,
+    timeout : 1000,
     connected: function(e) {
       var result;
       result = self._send_handshake();
@@ -1414,7 +1415,7 @@ WebSocket.prototype._connect = function() {
       
       self._read_callback();
     },
-    closed: function() {
+    closed: function(e) {
       self._socket_close();
       if(self.buffer) {
         self.buffer.clear();
@@ -1424,7 +1425,6 @@ WebSocket.prototype._connect = function() {
     },
     error: function(e) {
       var reason;
-      Ti.API.warn(e.errorCode);
       if('undefined' !== typeof e) {
         reason = e.error;
       }
