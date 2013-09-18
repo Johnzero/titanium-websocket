@@ -14,9 +14,6 @@ function MainWindow() {
 	};
 
 	var networkIsOnline, networkType;
- 
-
-
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#222',
 		width : "100%",

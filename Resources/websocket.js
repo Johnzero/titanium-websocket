@@ -54,6 +54,7 @@ function bind(ws) {
     ws.onclose = function (e) {
         log(e);
         log("连接断开！");
+        Ti.API.error("clse+{+++++++++++");
         ConnectState = 0;
         Ti.App.Properties.setBool("service_running", false);
     };
@@ -74,22 +75,9 @@ function bind(ws) {
     };
 
     ws.onerror = function (e) {
-        log(e);
-        ConnectState = 0;
+        Ti.API.error(e.error);
+        Ti.API.error("onerror++++++++++++");
         Ti.App.Properties.setBool("service_running", false);
-        if (ConnectState == 1) {
-            ws.onclose();
-            setTimeout(function() {
-                ws._connect();
-                // times = times * 2;
-            },500*times);
-            return ;
-        };
-        log('Error: ' + (e ? JSON.stringify(e) : 'A unknown error occurred'));
-        setTimeout(function() {
-            ws._connect();
-            times = times * 2;
-        },100*times);
     };
 
 }
@@ -109,3 +97,17 @@ log = function(str) {
 // };      
 
 // socket.send(JSON.stringify(message));
+
+// if (ConnectState == 1) {
+//             ws.onclose();
+//             setTimeout(function() {
+//                 ws._connect();
+//                 // times = times * 2;
+//             },500*times);
+//             return ;
+//         };
+//         log('Error: ' + (e ? JSON.stringify(e) : 'A unknown error occurred'));
+//         setTimeout(function() {
+//             ws._connect();
+//             times = times * 2;
+//         },100*times);
