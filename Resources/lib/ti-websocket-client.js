@@ -657,7 +657,8 @@ var BUFFER_SIZE = 65536;
 var CLOSING_TIMEOUT = 1000;
 var times = 1;
 
-var WebSocket = function(url, protocols, origin, extensions) {
+var WebSocket = function(url, protocols, origin, extensions,userAuth) {
+
   this.url = url;
   if(!this._parse_url()) {
     throw "Wrong url scheme for WebSocket: " + this.url;
@@ -666,6 +667,7 @@ var WebSocket = function(url, protocols, origin, extensions) {
   this.origin = origin || String.format("http://%s:%s/", this._host, this._port);
   this.protocols = protocols;
   this.extensions = extensions;
+  this.userAuth = userAuth;
   
   this.readyState = CONNECTING;
   
@@ -725,13 +727,15 @@ var make_handshake_key = function() {
 };
 
 //handshake
-var make_handshake = function(host, path, origin, protocols, extensions, handshake) {
+var make_handshake = function(host, path, origin, protocols, extensions, handshake,userAuth) {
   str = "GET " + path + " HTTP/1.1\r\n";
   str += "Host: " + host+":8080" + "\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n";
   str += "Sec-WebSocket-Key: " + handshake + "\r\n";
   str += "Origin: " + origin + "\r\n";
   str += "Sec-WebSocket-Origin: " + origin + "\r\n";
   str += "Sec-WebSocket-Version: 13\r\n";
+  str += "user: " + userAuth["username"] + "\r\n";
+  str += "password: " + userAuth["password"]  + "\r\n";
   
   if(protocols && protocols.length > 0) {
     str += "Sec-WebSocket-Protocol: " + protocols.join(',') + "\r\n";
@@ -750,7 +754,7 @@ var make_handshake = function(host, path, origin, protocols, extensions, handsha
 
 WebSocket.prototype._send_handshake = function() {
   this._handshake = make_handshake_key();
-  var handshake = make_handshake(this._host, this._path, this.origin, this.protocols, this.extensions, this._handshake);
+  var handshake = make_handshake(this._host, this._path, this.origin, this.protocols, this.extensions, this._handshake,this.userAuth);
   return this._socket.write(Ti.createBuffer({ value: handshake })) > 0;
 };
 

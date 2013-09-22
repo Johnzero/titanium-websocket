@@ -1,6 +1,7 @@
 
 ws = null;
 
+<<<<<<< HEAD
 var uri = "ws://" + localhost + "/msg";
 var times = 1;
 var WebSocket = require('/lib/ti-websocket-client').WebSocket;
@@ -8,6 +9,8 @@ var WebSocket = require('/lib/ti-websocket-client').WebSocket;
 ws = new WebSocket(uri,['WebManagerSocket',]);
 bind(ws);
 
+=======
+>>>>>>> 52296d2fc8f9818ab9cd205e30726511e291123e
 var userInfo = Ti.App.Properties.getList("user",false);
 if (userInfo) {
     if (userInfo[0]) {
@@ -15,6 +18,17 @@ if (userInfo) {
         password = userInfo[0]["password"];
     }else {ws.close();};
 }else {ws.close();};
+
+var uri = "ws://120.209.194.240:8080/msg";
+//  + "?username=" + username + "&password=" + Ti.Utils.sha1(password);
+
+var times = 1;
+var WebSocket = require('/lib/ti-websocket-client').WebSocket;
+var data = [];
+
+ws = new WebSocket(uri,['WebManagerSocket',],'','',{"username":username,"password":Ti.Utils.sha1(password)});
+bind(ws);
+
 
 send = function(message,type) {
 
@@ -54,7 +68,6 @@ function bind(ws) {
     ws.onclose = function (e) {
         log(e);
         log("连接断开！");
-        Ti.API.error("clse+{+++++++++++");
         ConnectState = 0;
         Ti.App.Properties.setBool("service_running", false);
     };
@@ -62,16 +75,28 @@ function bind(ws) {
     ws.onmessage = function (message) {
 
         message.data = unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,''));
-        
+        log("> "+message.data);
+        if (message.data.length > 20) {
+            var txt = message.data.substr(0, 20) + "...";
+        }else {
+            var txt = message.data;
+        };
+        data.push({
+            rowtitle : {text: txt},
+            username : {text: username},
+            properties : {
+                itemId: 'row',
+                backgroundColor:"rgb(239,239,239)",
+                accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+            }
+        });
+        sectionList.appendItems(data);
+        data = [];
+        txt = '';
         if (IsBackground) {
             var createNotificationViaService = require('lib/intent');
             new createNotificationViaService(message.data);
-            log("> "+message.data);
         }
-        else {
-            log("> "+message.data);
-        }
-
     };
 
     ws.onerror = function (e) {

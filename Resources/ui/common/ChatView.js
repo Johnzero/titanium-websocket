@@ -7,48 +7,55 @@ function ChatView() {
 		visible:true
 	});
 
-	var createNotificationViaService = require('lib/intent');
-	
-	var gpsLabel = Ti.UI.createLabel({
-		text: '',
-		color: '#fff',
-		font: {
-			fontSize: '20dp',
-			fontWeight: 'normal'	
-		},
-		top: '80dp'
+	var listView = Ti.UI.createListView({
+
 	});
 
-	// Ti.Gesture.addEventListener('orientationchange', function(e) {
-	// 	createNotificationViaService('Orientation changed!');
-	// });
+	logarea = Titanium.UI.createTextArea({
+	    backgroundColor: "#eee",
+	    value: '',
+	    editable: false,
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0
+	});
+	self.add(logarea);
 
-	// if (Ti.Geolocation.locationServicesEnabled) {
-	//     Ti.Geolocation.addEventListener('location', function(e) {
-	//         if (!e.error) {
-	//         	var gps = 'latitude: ' + e.coords.latitude + '\nlongitude: ' + e.coords.longitude;
-	//         	gpsLabel.text = gps;
-	//         	createNotificationViaService(gps);
-	//         }
-	//     });
-	// } 
-	//Ti.Geolocation.getCurrentPosition(function(e) {});
+	var log = function(str) {
+	    logarea.value += str + "\n";
+	};
 
-	var button = Ti.UI.createButton({
-			title: 'close',
-			height: '50dp',
-			width: '200dp',
-			top: '50dp'
-		});
+	var messageField = Ti.UI.createTextField({
+	    borderStyle: Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+	    width: Ti.UI.width,
+	    height: "40dp",
+	    bottom: "50dp",
+	    left: 5,
+	    value:"Hello World From 泰坦!"
+	});
+	self.add(messageField);
 
-		button.addEventListener('click', function(e) {
-			// navController.home();
-			Ti.Android.currentActivity.finish();
-		});
-					
-	self.add(button);
-
-	self.add(gpsLabel);
+	var sendBtn = Titanium.UI.createButton({
+	    title: 'Send',
+	    font: {
+	        fontSize: 16,
+	        fontFamily: 'Helvetica Neue'
+	    },
+	    textAlign: 'center',
+	    width: 70,
+	    height: "40dp",
+	    bottom: "50dp",
+	    right: 5
+	});
+	self.add(sendBtn);
+	sendBtn.addEventListener('click', function() {
+	    var v = messageField.value;
+	    log('< ' + v);
+	    send(v,'text');
+	    messageField.blur();
+	});
+	// self.add(listView);
 
 	return self;
 }
