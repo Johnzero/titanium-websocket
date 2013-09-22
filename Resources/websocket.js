@@ -1,7 +1,7 @@
 
 ws = null;
 
-var uri = "ws://120.209.194.240:8080/msg";
+var uri = "ws://" + localhost + "/msg";
 var times = 1;
 var WebSocket = require('/lib/ti-websocket-client').WebSocket;
 
