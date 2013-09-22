@@ -15,7 +15,7 @@ function MainWindow() {
 
 	var networkIsOnline, networkType;
 	var self = Ti.UI.createWindow({
-		backgroundColor:'#222',
+		backgroundColor:'white',
 		width : "100%",
 		height : "100%",
 		fullscreen: false,
@@ -46,6 +46,8 @@ function MainWindow() {
 	var chatview = new ChatView();
 	var FriendsView = require('ui/common/FriendsView');
 	var friendsview = new FriendsView();
+	var SettingsView = require('ui/common/SettingsView');
+	var settingsview = new SettingsView();
 
 	var bottom = Ti.UI.createLabel ({
 		backgroundColor:'darkgray',
@@ -242,9 +244,6 @@ function MainWindow() {
 		friends.backgroundImage = "/tab_find_frd_normal.png";
 		settings.backgroundImage = "/tab_settings_pressed.png";
 
-		var SettingsView = require('ui/common/SettingsView');
-		var settingsview = new SettingsView();
-
 		hideview();
 
 		settingsview.visible = true;
@@ -297,8 +296,10 @@ function MainWindow() {
 	self.add(firstview);
 	self.add(chatview);
 	self.add(friendsview);
+	self.add(settingsview);
 	chatview.visible = false;
 	friendsview.visible = false;
+	settingsview.visible = false;
 
 	function hideview () {
 
@@ -317,8 +318,6 @@ function MainWindow() {
 	  	// ws._connect();
 	  };
 	});
-
-
 
 	return self;
 				

@@ -12,9 +12,9 @@
   <script>
 
   var ws = new WebSocket('ws://120.209.194.240:8080/msg');
-
+  var a = "发生的发生的发生的发生的法撒旦法奥斯卡v刹小娘子v刹想咋说话阿萨德";
   ws.onopen = function() {
-      send(Math.random().toString(),"text");
+      send(a,"text");
 	};
 	ws.onclose = function(e) {
 		console.log(e);

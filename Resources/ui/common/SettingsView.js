@@ -1,47 +1,119 @@
 //FirstView Component Constructor
 function SettingsView() {
 	//create object instance, a parasitic subclass of Observable
-	var self = Ti.UI.createView({
+	// var appendCount = 0;
+
+	// var self = Ti.UI.createListView({
+	// 	accessibilityLabel:"settingsview",
+	// 	accessibilityHint: "view",
+	// 	visible:true,
+	// 	backgroundColor : 'white'
+	// });
+
+	// function getSection(count){
+	// 	var data = [
+	// 		{properties:{title:'ITEM 0 in Section '+count}},
+	// 		{properties:{title:'ITEM 1 in Section '+count}},
+	// 		{properties:{title:'ITEM 2 in Section '+count}},
+	// 	]
+	// 	var section = Ti.UI.createListSection({
+	// 		headerTitle:''
+	// 	})
+	// 	section.setItems(data);
+	// 	return section;
+	// }
+
+	var button = Ti.UI.createButton({
+		right:0,
+		title:'APPEND'
+	});
+
+	var plainTemplate = {
+	    childTemplates: [
+	        {
+	            type: 'Ti.UI.Label', // Use a label
+	            bindId: 'rowtitle',  // Bind ID for this label
+	            properties: {        // Sets the Label.left property
+	                left: '10dp'
+	            }
+	        },
+	        {
+	            type: 'Ti.UI.ImageView',  // Use an image view
+	            bindId: 'pic',            // Bind ID for this image view
+	            properties: {             // Sets the ImageView.image property
+	            	image: 'KS_nav_ui.png'
+	            }
+	        },                    
+	        {
+	            type: 'Ti.UI.Button',   // Use a button
+	            bindId: 'button',       // Bind ID for this button
+	            properties: {           // Sets several button properties
+	                width: '80dp',
+	                height: '40dp',                        	
+	                right: '10dp',
+	                title: 'press me'
+	            },
+	            events: { click : report }  // Binds a callback to the button's click event
+	        }
+	    ]
+	};
+
+	function report(e) {
+		Ti.API.info(e.type);
+	}
+
+	var listView = Ti.UI.createListView({
 		accessibilityLabel:"settingsview",
 		accessibilityHint: "view",
+		backgroundColor:"#333",
 		visible:true,
-		backgroundColor : '#333'
+	    // Maps the plainTemplate object to the 'plain' style name
+	    templates: { 'plain': plainTemplate },
+	    // Use the plain template, that is, the plainTemplate object defined earlier
+	    // for all data list items in this list view
+	    defaultItemTemplate: 'plain'               
 	});
 
-	var createNotificationViaService = require('lib/intent');
+	var data = [];
+	for (var i = 0; i < 5; i++) {
+	    data.push({
+	        // Maps to the rowtitle component in the template
+	        // Sets the text property of the Label component
+	        rowtitle : { text: 'Row ' + (i + 1) },
+	        // Sets the regular list data properties
+	        properties : {
+	            itemId: 'row' + (i + 1),
+	            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+	        }
+	    });
+	}
 
-	// Create button for launching an immedaite notification
-	var button = Ti.UI.createButton({
-		title: 'Immediate Notification',
-		height: '50dp',
-		width: '200dp',
-		top: '50dp'
+	var sectionList = Ti.UI.createListSection({items: data});
+	
+	listView.sections = [sectionList];
+	listView.addEventListener('itemclick', function(e){
+	    // Only respond to clicks on the label (rowtitle) or image (pic)
+	    if (e.bindId == 'rowtitle' || e.bindId == 'pic') {
+	        var item = e.section.getItemAt(e.itemIndex);
+	        if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
+	            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
+	        }
+	        else {
+	            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
+	        }
+	        e.section.updateItemAt(e.itemIndex, item);
+	    }      
 	});
-	button.addEventListener('click', function(e) {
-		createNotificationViaService('Fired immediate notification!');
-	});
 
-	// Create button for launching a notification that will be launched
-	// 4 seconds after we create it.
-	var button2 = Ti.UI.createButton({
-		title: 'Pending Notification (4 sec)',
-		height: '50dp',
-		width: '200dp',
-		top: '15dp'
-	});
-	button2.addEventListener('click', function(e) {
-		var now = new Date().getTime()
-	    var delta = new Date( now + (4 * 1000) );
-	    createNotificationViaService('Fired pending notification!', delta - now);
-	});
+	button.addEventListener('click',function(){
+		// self.appendSection(getSection(appendCount));
+		// appendCount++;
+		sectionList.appendItems(data);
+	})
 
+	listView.add(button);
 
-	self.add(button);
-	self.add(button2);
-
-					
-
-	return self;
+	return listView;
 }
 
 module.exports = SettingsView;

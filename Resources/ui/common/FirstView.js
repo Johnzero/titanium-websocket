@@ -1,64 +1,155 @@
 //FirstView Component Constructor
 function FirstView() {
-	//create object instance, a parasitic subclass of Observable
-	var self = Ti.UI.createView({
+
+	function CurentTime()
+    { 
+        var now = new Date();
+       
+        var year = now.getFullYear();       //年
+        var month = now.getMonth() + 1;     //月
+        var day = now.getDate();            //日
+       
+        var hh = now.getHours();            //时
+        var mm = now.getMinutes();          //分
+       
+        var clock = year + "-";
+       
+        if(month < 10)
+            clock += "0";
+       
+        clock += month + "-";
+       
+        if(day < 10)
+            clock += "0";
+           
+        clock += day + " ";
+       
+        if(hh < 10)
+            clock += "0";
+           
+        clock += hh + ":";
+        if (mm < 10) clock += '0'; 
+        clock += mm; 
+        return(clock); 
+    }
+
+	var plainTemplate = {
+	    childTemplates: [
+	        {
+	            type: 'Ti.UI.Label', // Use a label
+	            bindId: 'rowtitle',  // Bind ID for this label
+	            properties: {
+	            	height: '30dp',
+	                  // Sets the Label.left property
+	                left: '50dp',
+	                top:"30dp",
+	                color : "gray",
+	                font:{fontSize:"15dp"}
+	            }
+	        },
+	        {
+	            type: 'Ti.UI.Label', // Use a label
+	            bindId: 'username',  // Bind ID for this label
+	            properties: {
+	                left: '50dp',
+	                top:"5dp",
+	                color : "black",
+	                font:{fontSize:"20dp", fontWeight:'bold'}
+	            }
+	        },
+	        {
+	            type: 'Ti.UI.ImageView',  // Use an image view
+	            bindId: 'pic',            // Bind ID for this image view
+	            properties: {    
+	            	left:0,         // Sets the ImageView.image property
+	            	image: 'ic_launcher.png'
+	            }
+	        },
+	        {
+	            type: 'Ti.UI.Label', // Use a label
+	            bindId: 'time',  // Bind ID for this label
+	            properties: {
+	            	height: '50dp',
+	            	top:"-10dp",
+	                  // Sets the Label.left property
+	                right: '0dp',
+	                color : "gray",
+	                text : CurentTime(),
+	                font:{fontSize:"13dp", fontWeight:'bold'}
+	            }
+	        },                  
+	        // {
+	        //     type: 'Ti.UI.Button',   // Use a button
+	        //     bindId: 'button',       // Bind ID for this button
+	        //     properties: {           // Sets several button properties
+	        //         width: '80dp',
+	        //         height: '40dp',                        	
+	        //         right: '10dp',
+	        //         title: 'press me'
+	        //     },
+	        //     events: { click : report }  // Binds a callback to the button's click event
+	        // }
+	    ]
+	};
+
+	function report(e) {
+		Ti.API.info(e.type);
+	}
+
+	var listView = Ti.UI.createListView({
 		accessibilityLabel:"firstview",
 		accessibilityHint: "view",
 		backgroundColor:"white",
-		visible:true
+		visible:true,
+		top:0,
+		height:"87%",
+	    // Maps the plainTemplate object to the 'plain' style name
+	    templates: { 'plain': plainTemplate },
+	    // Use the plain template, that is, the plainTemplate object defined earlier
+	    // for all data list items in this list view
+	    defaultItemTemplate: 'plain'               
 	});
 
-	var listView = Ti.UI.createListView({
+	var data = [];
+	// for (var i = 0; i < 5; i++) {
+	//     data.push({
+	//         // Maps to the rowtitle component in the template
+	//         // Sets the text property of the Label component
+	//         rowtitle : { text: 'Row ' + (i + 1) },
+	//         // Sets the regular list data properties
+	//         properties : {
+	//             itemId: 'row' + (i + 1),
+	//             accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+	//         }
+	//     });
+	// }
 
+	sectionList = Ti.UI.createListSection();
+	
+	listView.sections = [sectionList];
+	listView.addEventListener('itemclick', function(e){
+	    // Only respond to clicks on the label (rowtitle) or image (pic)
+	    if (e.bindId == 'rowtitle' || e.bindId == 'pic') {
+	        var item = e.section.getItemAt(e.itemIndex);
+	        if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
+	            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
+	        }
+	        else {
+	            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
+	        }
+	        e.section.updateItemAt(e.itemIndex, item);
+	    }      
 	});
 
-	logarea = Titanium.UI.createTextArea({
-	    backgroundColor: "#eee",
-	    value: '',
-	    editable: false,
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0
-	});
-	self.add(logarea);
+	// button.addEventListener('click',function(){
+	// 	// self.appendSection(getSection(appendCount));
+	// 	// appendCount++;
+	// 	sectionList.appendItems(data);
+	// })
 
-	var log = function(str) {
-	    logarea.value += str + "\n";
-	};
+	// listView.add(button);
 
-	var messageField = Ti.UI.createTextField({
-	    borderStyle: Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-	    width: Ti.UI.width,
-	    height: "40dp",
-	    bottom: "50dp",
-	    left: 5,
-	    value:"Hello World From 泰坦!"
-	});
-	self.add(messageField);
-
-	var sendBtn = Titanium.UI.createButton({
-	    title: 'Send',
-	    font: {
-	        fontSize: 16,
-	        fontFamily: 'Helvetica Neue'
-	    },
-	    textAlign: 'center',
-	    width: 70,
-	    height: "40dp",
-	    bottom: "50dp",
-	    right: 5
-	});
-	self.add(sendBtn);
-	sendBtn.addEventListener('click', function() {
-	    var v = messageField.value;
-	    log('< ' + v);
-	    send(v,'text');
-	    messageField.blur();
-	});
-	// self.add(listView);
-
-	return self;
+	return listView;
 }
 
 module.exports = FirstView;

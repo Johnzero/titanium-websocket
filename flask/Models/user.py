@@ -6,7 +6,8 @@ Created by Xero 2012-12-08.
 
 import hashlib
 from datetime import datetime
-from werkzeug import generate_password_hash, check_password_hash, cached_property
+from werkzeug import generate_password_hash,check_password_hash, cached_property
+from hashlib import sha1
 
 from flask.ext.sqlalchemy import BaseQuery
 from flask.ext.login import UserMixin
@@ -73,7 +74,7 @@ class User(db.Model, UserMixin):
         return self._password
 
     def _set_password(self, password):
-        self._password = generate_password_hash(password)
+        self._password = sha1(password).hexdigest()
 
     password = db.synonym("_password", 
                           descriptor=property(_get_password,

@@ -42,6 +42,20 @@ IP = "ws://localhost:8080/"
 ##
 class MsgServerProtocol(WebSocketServerProtocol):
 
+   def onConnect(self,connectionResponse):
+      if connectionResponse.headers.has_key("user") :
+         users = User.query.filter_by(username=connectionResponse.headers["user"]).first()
+         if users:
+            if user.password == connectionResponse.headers["password"]:
+               pass
+            else:self.closedByMe()
+         else:self.closedByMe()
+      else:
+         users = User.query.all()
+         print users
+
+         # self.closedByMe()
+
    def onOpen(self):
       Msg_CLIENT_POOL.append(self)
       print self.peerstr,"Connected!"
@@ -56,7 +70,9 @@ class MsgServerProtocol(WebSocketServerProtocol):
          client.sendMessage("<SMsg : >" + msg['message'], binary)
 
    def connectionLost(self, reason):
-      Msg_CLIENT_POOL.remove(self)
+      try:
+         Msg_CLIENT_POOL.remove(self)
+      except:pass
       print 'connectionLost'
 
    def onClose(self, wasClean, code, reason):
