@@ -1,6 +1,16 @@
 
 ws = null;
 
+<<<<<<< HEAD
+var uri = "ws://" + localhost + "/msg";
+var times = 1;
+var WebSocket = require('/lib/ti-websocket-client').WebSocket;
+
+ws = new WebSocket(uri,['WebManagerSocket',]);
+bind(ws);
+
+=======
+>>>>>>> 52296d2fc8f9818ab9cd205e30726511e291123e
 var userInfo = Ti.App.Properties.getList("user",false);
 if (userInfo) {
     if (userInfo[0]) {

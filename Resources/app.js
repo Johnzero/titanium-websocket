@@ -24,7 +24,7 @@ if (Ti.version < 1.8 ) {
 		height = Ti.Platform.displayCaps.platformHeight,
 		width = Ti.Platform.displayCaps.platformWidth;
 	
-	localhost = "120.209.194.240:8080";
+	localhost = "117.70.37.38:8080";
 	IsBackground = false;
 	username = '';
 	password = '';
