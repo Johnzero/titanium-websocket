@@ -1,16 +1,7 @@
 
 ws = null;
 
-<<<<<<< HEAD
 var uri = "ws://" + localhost + "/msg";
-var times = 1;
-var WebSocket = require('/lib/ti-websocket-client').WebSocket;
-
-ws = new WebSocket(uri,['WebManagerSocket',]);
-bind(ws);
-
-=======
->>>>>>> 52296d2fc8f9818ab9cd205e30726511e291123e
 var userInfo = Ti.App.Properties.getList("user",false);
 if (userInfo) {
     if (userInfo[0]) {
@@ -18,9 +9,6 @@ if (userInfo) {
         password = userInfo[0]["password"];
     }else {ws.close();};
 }else {ws.close();};
-
-var uri = "ws://120.209.194.240:8080/msg";
-//  + "?username=" + username + "&password=" + Ti.Utils.sha1(password);
 
 var times = 1;
 var WebSocket = require('/lib/ti-websocket-client').WebSocket;
@@ -35,7 +23,7 @@ send = function(message,type) {
     message = message.replace(/[^\u0000-\u00FF]/g,function($0){return escape($0).replace(/(%u)(\w{4})/gi,"&#x$2;")}); 
     
     ws.send(
-        	"{'send':1,'type':" + "'" + type + "'" + ",'message':" + "'" + message + "'" + ",'random':" + Math.random() + "}"
+        	"{'type':" + "'" + type + "'" + ",'message':" + "'" + message + "'" + ",'random':" + Math.random() + "}"
         );
 
     // if (ws.readyState !== 1) {
@@ -54,11 +42,19 @@ send = function(message,type) {
 
 };
 
-
 function bind(ws) {
 
     ws.onopen = function () {
 
+        //updata Mobile Information
+
+        var dict = {"network":Ti.Network.networkTypeName,
+                    "macaddress":Ti.Platform.macaddress,"ostype":Ti.Platform.ostype,
+                    "height":Ti.Platform.displayCaps.platformHeight,"width":Ti.Platform.displayCaps.platformWidth,
+                    "osname":Ti.Platform.osname,"availablememory":Math.round(Ti.Platform.availableMemory / 1024) + 'mb'}
+        // alert(JSON.stringify(dict).length);
+        // send("发生的发生的发生的发生的法撒旦法奥斯卡v刹小娘子v刹想咋说话阿萨德","text");
+        ws.send("{'send':1,'type':'text','message':'&#x53D1;&#x751F;&#x7684;&#x53D1;&#x751F;&#x7684;&#x53D1;&#x751F;&#x7684;&#x53D1;&#x751F;&#x7684;&#x6CD5;&#x6492;&#x65E6;&#x6CD5;&#x5965;&#x65AF;&#x5361;v&#x5239;&#x5C0F;&#x5A18;&#x5B50;v&#x5239;&#x60F3;&#x548B;&#x8BF4;&#x8BDD;&#x963F;&#x8428;&#x5FB7;','random':0.11267703818157315}");
         log("Connected");
         times = 1;
         ConnectState = 1;

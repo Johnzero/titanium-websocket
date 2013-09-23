@@ -896,8 +896,8 @@ WebSocket.prototype._create_frame = function(opcode, d, last_frame) {
       type: Ti.Codec.TYPE_BYTE
     });
   }
-  /*
-  else if(length < BUFFER_SIZE) { // # write 2 byte length
+  else if(length < BUFFER_SIZE) {
+     // # write 2 byte length
     Ti.Codec.encodeNumber({
       source: (126 | 0x80),
       dest: out,
@@ -912,8 +912,9 @@ WebSocket.prototype._create_frame = function(opcode, d, last_frame) {
       byteOrder: Ti.Codec.BIG_ENDIAN
     });
     outIndex += 2;
+    Ti.API.error(outIndex);
   }
-  */
+  
   else { //  # write 8 byte length
     Ti.Codec.encodeNumber({
       source: (127 | 0x80),
@@ -935,15 +936,17 @@ WebSocket.prototype._create_frame = function(opcode, d, last_frame) {
   outIndex = this._mask_payload(out, outIndex, data);
   out.length = outIndex;
 
-  return out;
+  return out; 
 };
 
 WebSocket.prototype._mask_payload = function(out, outIndex, payload) {
   if(!this._masking_disabled) {
     var i, masking_key = [];
     for(i = 0; i < 4; ++i) {
-      var key = Math.floor(Math.random() * 255) & 0xff;
+      // var key = Math.floor(Math.random() * 255) & 0xff;
+      var key = Math.floor(10) & 0xff;
       masking_key.push(key);
+      Ti.API.error(outIndex);
       Ti.Codec.encodeNumber({
         source: key,
         dest: out,
@@ -951,6 +954,7 @@ WebSocket.prototype._mask_payload = function(out, outIndex, payload) {
         type: Ti.Codec.TYPE_BYTE
       });
     }
+    Ti.API.error(outIndex);
 
     var buffer = Ti.createBuffer({ value: payload });
     var string = Ti.Codec.decodeString({
@@ -959,9 +963,14 @@ WebSocket.prototype._mask_payload = function(out, outIndex, payload) {
     });
     var length = buffer.length;
 
+    Ti.API.error(out.length);//283 343
+    Ti.API.error(length);//269  329
+    Ti.API.error(masking_key);
+
     if(out.length < length){
       out.length = length;
     }
+    Ti.API.error(string);
 
     for(i = 0; i < length; ++i) {
       Ti.Codec.encodeNumber({
@@ -971,7 +980,9 @@ WebSocket.prototype._mask_payload = function(out, outIndex, payload) {
         type: Ti.Codec.TYPE_BYTE
       });
     }
+
     out.copy(buffer, outIndex, 0, length);
+
     return outIndex + length;
   }
 
@@ -1042,11 +1053,13 @@ WebSocket.prototype.send = function(data) {
     });
     var frame = null;
     var stringLength = string.length;
+
     if(stringLength < BUFFER_SIZE){
 
       frame = this._create_frame(0x01, string);
 
       try{
+
         if(0 < this._socket.write(frame)){
 
           return true;

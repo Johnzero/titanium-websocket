@@ -29,7 +29,7 @@ function LogView() {
 	    height: "40dp",
 	    top: "340dp",
 	    left: 5,
-	    value:"Hello World From 泰坦!"
+	    value:"Hello World From 泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦泰坦!"
 	    // value:"是"
 	});
 	self.add(messageField);

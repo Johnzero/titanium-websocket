@@ -18,13 +18,21 @@ if (Ti.version < 1.8 ) {
 
 // This is a single context application with multiple windows in a stack
 (function() {
-	//render appropriate components based on the platform and form factor
-	var osname = Ti.Platform.osname,
-		version = Ti.Platform.version,
-		height = Ti.Platform.displayCaps.platformHeight,
-		width = Ti.Platform.displayCaps.platformWidth;
+
+	var osname = Ti.Platform.osname;
+	var isIos = (osname === 'iphone' || osname === 'ipad');
+	var isAndroid = (osname === 'android');
+	var sdkVersion = parseFloat(Ti.version);
+	var version = Ti.Platform.version;
+	var height = Ti.Platform.displayCaps.platformHeight;
+	var width = Ti.Platform.displayCaps.platformWidth;
+	if (isIos) {
+		ActivityIndicatorStyle = Titanium.UI.iPhone.ActivityIndicatorStyle;
+	} else if (sdkVersion >= 3.0){
+		ActivityIndicatorStyle = Titanium.UI.ActivityIndicatorStyle;
+	}
 	
-	localhost = "117.70.37.38:8080";
+	localhost = "120.209.194.240:8080";
 	IsBackground = false;
 	username = '';
 	password = '';

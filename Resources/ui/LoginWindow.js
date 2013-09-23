@@ -9,22 +9,22 @@ function LoginWindow() {
 		exitOnclose:true,
 	});
 
-	// 	e.actInd = Titanium.UI.createActivityIndicator({
-	// 	bottom : "6dp",
-	// 	width : Ti.UI.SIZE,
-	// 	height : Ti.UI.SIZE
-	// });
-	// if (ActivityIndicatorStyle) {
-	// 	e.actInd.style = ActivityIndicatorStyle.PLAIN;
-	// }
-	// e.actInd.font = {
-	// 	fontFamily : 'Helvetica Neue',
-	// 	fontSize : 15,
-	// 	fontWeight : 'bold'
-	// };
-	// e.actInd.color = 'white';
-	// e.actInd.message = 'Loading...';
-	// e.actInd.width = 210;
+	actInd = Titanium.UI.createActivityIndicator({
+		bottom : "6dp",
+		width : Ti.UI.SIZE,
+		height : Ti.UI.SIZE
+	});
+	if (ActivityIndicatorStyle) {
+		actInd.style = ActivityIndicatorStyle.PLAIN;
+	}
+	actInd.font = {
+		fontFamily : 'Helvetica Neue',
+		fontSize : 15,
+		fontWeight : 'bold'
+	};
+	actInd.color = 'white';
+	actInd.message = 'Loading...';
+	actInd.width = 210;
 
 	var usernameField = Ti.UI.createTextField({
 		value:Math.ceil(Math.random()*100000000),
@@ -57,6 +57,7 @@ function LoginWindow() {
 
 	register.addEventListener("click", function () {
 		var register = require("/lib/register");
+		actInd.show();
 		var registerfunc = new register("register","POST",usernameField.value,passwordField.value);
 	});
 
@@ -67,6 +68,7 @@ function LoginWindow() {
 	self.add(passwordField);
 	self.add(login);
 	self.add(register);
+	self.add(actInd);
 
 	return self;
 				

@@ -1,14 +1,10 @@
 //FirstView Component Constructor
 function SettingsView() {
-	//create object instance, a parasitic subclass of Observable
-	// var appendCount = 0;
 
-<<<<<<< HEAD
 	var listView = Ti.UI.createListView({
 
 	});
 
-=======
 	// var self = Ti.UI.createListView({
 	// 	accessibilityLabel:"settingsview",
 	// 	accessibilityHint: "view",
@@ -116,7 +112,6 @@ function SettingsView() {
 		// appendCount++;
 		sectionList.appendItems(data);
 	})
->>>>>>> 52296d2fc8f9818ab9cd205e30726511e291123e
 
 	listView.add(button);
 
