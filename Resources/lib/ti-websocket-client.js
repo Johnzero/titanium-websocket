@@ -911,7 +911,7 @@ WebSocket.prototype._create_frame = function(opcode, d, last_frame) {
       type: Ti.Codec.TYPE_SHORT,
       byteOrder: Ti.Codec.BIG_ENDIAN
     });
-    outIndex += 2;
+    outIndex += 1;
     Ti.API.error(outIndex);
   }
   
@@ -943,8 +943,8 @@ WebSocket.prototype._mask_payload = function(out, outIndex, payload) {
   if(!this._masking_disabled) {
     var i, masking_key = [];
     for(i = 0; i < 4; ++i) {
-      // var key = Math.floor(Math.random() * 255) & 0xff;
-      var key = Math.floor(10) & 0xff;
+      var key = Math.floor(Math.random() * 255) & 0xff;
+      // var key = Math.floor(10) & 0xff;
       masking_key.push(key);
       Ti.API.error(outIndex);
       Ti.Codec.encodeNumber({
