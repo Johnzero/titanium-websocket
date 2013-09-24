@@ -20,6 +20,7 @@ function MainWindow() {
 		height : "100%",
 		fullscreen: false,
 		title:username || "You",
+		navBarHidden : true,
 		// exitOnClose: false,
 		// modal:true,
 		activity : {
@@ -318,6 +319,24 @@ function MainWindow() {
 	  	// ws._connect();
 	  };
 	});
+
+	//top bar
+	var top = Ti.UI.createLabel ({
+		text: '微信',
+		textAlign: 'center',
+		top:0,
+		width: Titanium.UI.FILL, 
+		backgroundImage:"/title_bar.9.png",
+		zIndex : 1000,
+		height:"50dp",
+		color:"white",
+		font: {
+		    fontSize: '20dp',fontWeight :"bold"
+		},
+	});
+
+
+	self.add(top);
 
 	return self;
 				

@@ -4,6 +4,7 @@ function LogView() {
 	var self = Ti.UI.createView({
 		accessibilityLabel:"firstview",
 		accessibilityHint: "view",
+		top:"50dp",
 		visible:true
 	});
 

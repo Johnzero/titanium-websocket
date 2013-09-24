@@ -4,7 +4,8 @@ function ChatView() {
 	var self = Ti.UI.createView({
 		accessibilityLabel:"chatview",
 		accessibilityHint: "view",
-		visible:true
+		visible:true,
+		top:"50dp"
 	});
 
 	var listView = Ti.UI.createListView({

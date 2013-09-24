@@ -2,7 +2,7 @@
 function SettingsView() {
 
 	var listView = Ti.UI.createListView({
-
+		top:"50dp",
 	});
 
 	// var self = Ti.UI.createListView({

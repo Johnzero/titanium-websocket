@@ -6,7 +6,6 @@ function ChatWindow() {
 		width : Ti.UI.SIZE,
 		height : Ti.UI.SIZE,
 	});
-		
 
 	return self;
 				

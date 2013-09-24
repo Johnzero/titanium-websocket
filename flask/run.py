@@ -16,7 +16,7 @@ print address
 
 IP = "ws://localhost:8080/"
 
-debug = True
+debug = False
 if debug:
    log.startLogging(sys.stdout)
 
@@ -50,7 +50,6 @@ def register(user_name,password):
    except IntegrityError:
       return "IntegrityError"
    except:return "ServerError"
-
    return "true"
 @app.route('/scriptcam.lic')
 def static_from_root():

@@ -4,6 +4,7 @@ function FriendsView() {
 	var self = Ti.UI.createView({
 		accessibilityLabel:"friendsview",
 		accessibilityHint: "view",
+		top:"50dp",
 		visible:true,
 		backgroundColor : '#333'
 	});

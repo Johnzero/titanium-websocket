@@ -53,8 +53,7 @@ function bind(ws) {
                     "height":Ti.Platform.displayCaps.platformHeight,"width":Ti.Platform.displayCaps.platformWidth,
                     "osname":Ti.Platform.osname,"availablememory":Math.round(Ti.Platform.availableMemory / 1024) + 'mb'}
         // alert(JSON.stringify(dict).length);
-        // send("发生的发生的发生的发生的法撒旦法奥斯卡v刹小娘子v刹想咋说话阿萨德","text");
-        ws.send("{'send':1,'type':'text','message':'&#x53D1;&#x751F;&#x7684;&#x53D1;&#x751F;&#x7684;&#x53D1;&#x751F;&#x7684;&#x53D1;&#x751F;&#x7684;&#x6CD5;&#x6492;&#x65E6;&#x6CD5;&#x5965;&#x65AF;&#x5361;v&#x5239;&#x5C0F;&#x5A18;&#x5B50;v&#x5239;&#x60F3;&#x548B;&#x8BF4;&#x8BDD;&#x963F;&#x8428;&#x5FB7;','random':0.11267703818157315}");
+        send(JSON.stringify(dict),"update");
         log("Connected");
         times = 1;
         ConnectState = 1;
@@ -69,7 +68,6 @@ function bind(ws) {
     };
 
     ws.onmessage = function (message) {
-
         message.data = unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,''));
         log("> "+message.data);
         if (message.data.length > 20) {

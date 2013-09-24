@@ -59,17 +59,16 @@ class MsgServerProtocol(WebSocketServerProtocol):
       print self.peerstr,"Connected!"
 
    def onMessage(self, msg, binary):
-      print msg
-      # msg = eval(msg)
-      # msg["pymessage"] = msg["message"].replace(";",'').replace("&#x","\u")
-      # msg["pymessage"] = eval("u" + "'" + msg["pymessage"] + "'")
-      # # unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,''));
+      msg = eval(msg)
+      msg["pymessage"] = msg["message"].replace(";",'').replace("&#x","\u")
+      msg["pymessage"] = eval("u" + "'" + msg["pymessage"] + "'")
+      # unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,''));
 
-      # if msg["type"] == "update":
-      #    print type(msg["message"])
+      if msg["type"] == "update":
+         print type(msg["message"])
 
-      # for client in Msg_CLIENT_POOL:
-      #    client.sendMessage("<SMsg : >" + msg['message'], binary)
+      for client in Msg_CLIENT_POOL:
+         client.sendMessage("<SMsg : >" + msg['message'], binary)
 
    def connectionLost(self, reason):
       try:

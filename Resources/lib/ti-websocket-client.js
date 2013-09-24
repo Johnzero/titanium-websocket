@@ -912,7 +912,6 @@ WebSocket.prototype._create_frame = function(opcode, d, last_frame) {
       byteOrder: Ti.Codec.BIG_ENDIAN
     });
     outIndex += 1;
-    Ti.API.error(outIndex);
   }
   
   else { //  # write 8 byte length
@@ -946,7 +945,6 @@ WebSocket.prototype._mask_payload = function(out, outIndex, payload) {
       var key = Math.floor(Math.random() * 255) & 0xff;
       // var key = Math.floor(10) & 0xff;
       masking_key.push(key);
-      Ti.API.error(outIndex);
       Ti.Codec.encodeNumber({
         source: key,
         dest: out,
@@ -954,7 +952,6 @@ WebSocket.prototype._mask_payload = function(out, outIndex, payload) {
         type: Ti.Codec.TYPE_BYTE
       });
     }
-    Ti.API.error(outIndex);
 
     var buffer = Ti.createBuffer({ value: payload });
     var string = Ti.Codec.decodeString({
@@ -963,14 +960,9 @@ WebSocket.prototype._mask_payload = function(out, outIndex, payload) {
     });
     var length = buffer.length;
 
-    Ti.API.error(out.length);//283 343
-    Ti.API.error(length);//269  329
-    Ti.API.error(masking_key);
-
     if(out.length < length){
       out.length = length;
     }
-    Ti.API.error(string);
 
     for(i = 0; i < length; ++i) {
       Ti.Codec.encodeNumber({
