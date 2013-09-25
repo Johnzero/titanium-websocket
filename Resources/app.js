@@ -32,7 +32,7 @@ if (Ti.version < 1.8 ) {
 		ActivityIndicatorStyle = Titanium.UI.ActivityIndicatorStyle;
 	}
 	
-	localhost = "120.209.194.240:8080";
+	localhost = "192.168.1.101:8080";
 	IsBackground = false;
 	username = '';
 	password = '';
