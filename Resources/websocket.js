@@ -18,13 +18,13 @@ ws = new WebSocket(uri,['WebManagerSocket',],'','',{"username":username,"passwor
 bind(ws);
 
 
-send = function(message,type) {
+send = function(message,type,to) {
 
     message = message.replace(/[^\u0000-\u00FF]/g,function($0){return escape($0).replace(/(%u)(\w{4})/gi,"&#x$2;")}); 
     
     ws.send(
-        	"{'type':" + "'" + type + "'" + ",'message':" + "'" + message + "'" + ",'random':" + Math.random() + "}"
-        );
+        	"{'type':" + "'" + type + "'" +",'from':" + "'" + username + "'" + ",'to':" + "'" + to + "'" + ",'message':" + "'" + message + "'" + ",'random':" + Math.random() + "}"
+    );
 
     // if (ws.readyState !== 1) {
     //     ws.close();
@@ -53,11 +53,28 @@ function bind(ws) {
                     "height":Ti.Platform.displayCaps.platformHeight,"width":Ti.Platform.displayCaps.platformWidth,
                     "osname":Ti.Platform.osname,"availablememory":Math.round(Ti.Platform.availableMemory / 1024) + 'mb'}
         // alert(JSON.stringify(dict).length);
-        send(JSON.stringify(dict),"update");
+        send(JSON.stringify(dict),"update","");
         log("Connected");
         times = 1;
         ConnectState = 1;
         Ti.App.Properties.setBool("service_running", true);
+        var dataToWrite = {"en_us":{"foo":"bar"}};  
+        var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');  
+        newDir.createDirectory();
+        Ti.API.error('Path to newdir: ' + newDir.nativePath);  
+        var newFile = Titanium.Filesystem.getFile(newDir.nativePath,'newfile.json');  
+        newFile.write(JSON.stringify(dataToWrite));
+
+        // var newFile = Titanium.Filesystem.getFile(newDir.nativePath,'newfile.json');
+        // var resources = JSON.parse(newFile.read().text);
+         
+        // resources.en_us.foo = 'baz'; //bar becomes baz
+        // newFile.write(JSON.stringify(resources));  
+
+        // //We already have references to the file and directory objects.
+        // //We just need to call their cooresponding delete methods.
+        // newFile.deleteFile();
+        // newDir.deleteDirectory();
     };
 
     ws.onclose = function (e) {
@@ -68,13 +85,21 @@ function bind(ws) {
     };
 
     ws.onmessage = function (message) {
-        message.data = unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,''));
+
+        message.data = unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,"").replace(/'/g,'"'));
+        Ti.API.error(message.data);
+        message.data = eval("(" + message.data + ")");
+        Ti.API.error(message.data);
+        var db = Ti.Database.open('websocketDB');
+        db.execute('INSERT INTO message (sender, receiver, receivetime, read, message, type) VALUES (?,?,?,?,?,?)', message.data["sender"], username, message.data["time"], false, message.data["data"],message.data["type"]);  
+        db.close();
         log("> "+message.data);
         if (message.data.length > 20) {
             var txt = message.data.substr(0, 20) + "...";
         }else {
             var txt = message.data;
         };
+
         data.push({
             rowtitle : {text: txt},
             username : {text: username},
@@ -87,10 +112,13 @@ function bind(ws) {
         sectionList.appendItems(data);
         data = [];
         txt = '';
+
         if (IsBackground) {
             var createNotificationViaService = require('lib/intent');
             new createNotificationViaService(message.data);
         }
+
+
     };
 
     ws.onerror = function (e) {
@@ -98,7 +126,6 @@ function bind(ws) {
         Ti.API.error("onerror++++++++++++");
         Ti.App.Properties.setBool("service_running", false);
     };
-
 }
 
 log = function(str) {
@@ -107,6 +134,29 @@ log = function(str) {
         logarea.value = "";
     }
 };
+
+function CurentTime()
+    { 
+        var now = new Date();
+        var year = now.getFullYear();       //年
+        var month = now.getMonth() + 1;     //月
+        var day = now.getDate();            //日
+        var hh = now.getHours();            //时
+        var mm = now.getMinutes();          //分
+        var clock = year + "-";
+        if(month < 10)
+            clock += "0";
+        clock += month + "-";
+        if(day < 10)
+            clock += "0";
+        clock += day + " ";
+        if(hh < 10)
+            clock += "0";
+        clock += hh + ":";
+        if (mm < 10) clock += '0'; 
+        clock += mm; 
+        return(clock); 
+    }
 
 
 // var message = {
