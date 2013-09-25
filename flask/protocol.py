@@ -1,11 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-import socket
-ips = socket.gethostbyname(socket.gethostname())
-print ips
-
-import uuid, sys
+import uuid, sys, time, random
 
 from twisted.python import log
 from twisted.internet import reactor
@@ -46,7 +42,7 @@ class MsgServerProtocol(WebSocketServerProtocol):
          users = User.query.filter_by(username=connectionResponse.headers["user"]).first()
          if users:
             if users.password == connectionResponse.headers["password"]:
-               pass
+               self.name = connectionResponse.headers["user"]
             else : self.closedByMe()
          else : self.closedByMe()
       else : 
@@ -56,9 +52,15 @@ class MsgServerProtocol(WebSocketServerProtocol):
 
    def onOpen(self):
       Msg_CLIENT_POOL.append(self)
-      print self.peerstr,"Connected!"
+      print self.name,self.peerstr,"Connected!"
+
+   def sendDict(self, sender, to, timing, payload, binary, payload_frag_size = None, sync = False):
+      payloadDict = {"data":payload,"time":timing,"sender":sender.encode("utf8"),"to":to,"type":"text", "random":random.random()}
+      print str(payloadDict)
+      self.sendMessage(str(payloadDict), binary)
 
    def onMessage(self, msg, binary):
+      print msg
       msg = eval(msg)
       msg["pymessage"] = msg["message"].replace(";",'').replace("&#x","\u")
       msg["pymessage"] = eval("u" + "'" + msg["pymessage"] + "'")
@@ -68,7 +70,7 @@ class MsgServerProtocol(WebSocketServerProtocol):
          print type(msg["message"])
 
       for client in Msg_CLIENT_POOL:
-         client.sendMessage("<SMsg : >" + msg['message'], binary)
+         client.sendDict(client.name, "", time.strftime('%Y-%m-%d,%H-%M-%S',time.localtime(time.time())), msg['message'], binary)
 
    def connectionLost(self, reason):
       try:

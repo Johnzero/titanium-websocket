@@ -32,6 +32,10 @@ if (Ti.version < 1.8 ) {
 		ActivityIndicatorStyle = Titanium.UI.ActivityIndicatorStyle;
 	}
 	
+	var db = Ti.Database.open('websocketDB');
+	db.execute('DROP TABLE IF EXISTS message');  
+	db.execute('CREATE TABLE IF NOT EXISTS message (id INTEGER PRIMARY KEY, sender VARCHAR(32) NOT NULL, receiver VARCHAR(32) NOT NULL, receivetime datetime, read boolean DEFAULT false, message TEXT,type VARCHAR(32) NOT NULL);');  
+	db.close();
 	localhost = "120.209.194.240:8080";
 	IsBackground = false;
 	username = '';
