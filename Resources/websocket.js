@@ -86,7 +86,7 @@ function bind(ws) {
 
     ws.onmessage = function (message) {
 
-        message.data = unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,"").replace(/'/g,'"'));
+        message.data = unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,""));
         Ti.API.error(message.data);
         message.data = eval("(" + message.data + ")");
         Ti.API.error(message.data);
