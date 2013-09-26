@@ -17,6 +17,7 @@ function ChatWindow(id) {
 		visible:true,
 		top:"50dp",
 		bottom:"50dp",
+		minRowHeight:"60dp",
 		backgroundColor:'white',
 	});
 
@@ -37,7 +38,7 @@ function ChatWindow(id) {
 	    borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
 	    width: Ti.UI.width,
 	    height: "40dp",
-	    bottom: "0dp",
+	    bottom: "5dp",
 	    right: "60dp",
 	    zIndex : 2500,
 	    value:"Hello World From 泰坦!"
@@ -53,7 +54,7 @@ function ChatWindow(id) {
 	    width: "50dp",
 	    height: "40dp",
 	    // backgroundImage:"/mmfooter_list_moreframebg.9.png",
-	    bottom: "0dp",
+	    bottom: "5dp",
 	    zIndex : 2500,
 	    right: "5dp"
 	});
@@ -62,7 +63,7 @@ function ChatWindow(id) {
 		backgroundColor:'darkgray',
 		text: '',
 		textAlign: 'center',
-		bottom:0,
+		bottom:"0",
 		width: Titanium.UI.FILL, 
 		backgroundImage:"/mmfooter_text_tabbutton_normal.9.png",
 		zIndex : 2000,
@@ -83,37 +84,30 @@ function ChatWindow(id) {
 
 	var db = Ti.Database.open('websocketDB');
 	var currentmsg = db.execute('SELECT sender, receiver, receivetime, read, message, type FROM message WHERE sender = ?',id);
-	var row = Ti.UI.createTableViewRow({
-	    backgroundSelectedColor:'white',
-	    minRowHeight:"100dp",
-	    backgroundColor:"transparent"
-	});
-
 	while (currentmsg.isValidRow())
 	{	
 		var row = Ti.UI.createTableViewRow({
-		    backgroundSelectedColor:'white',
-		    minRowHeight:"100dp",
-		    backgroundColor:"transparent"
+		    minRowHeight:"60dp"
 		});
 		var IMG_BASE = '/new' + "/" + "emoji_" + Math.ceil(Math.random()*(470-1)+1) + ".png";
 		var imageAvatar = Ti.UI.createImageView({
 		    image: IMG_BASE,
+		    top:"15dp",
 		    left:"5dp",
 		  });
 		row.add(imageAvatar);
 		var labelDetails = Ti.UI.createLabel({
 			color:'#222',
-			font:{fontFamily:'Arial', fontSize:"16dp", fontWeight:'normal'},
+			font:{fontSize:"18dp", fontWeight:'blod'},
 			text:currentmsg.fieldByName("message"),
-			left:"70dp",
+			left:"30dp",
 			right:"10dp",
 			top:"10dp",
 			bottom:"10dp",
 			width:Ti.UI.SIZE,
-			height:"100dp",
-			backgroundImage:"/favorite_bg_voice.9.png"
+			backgroundImage:"/chatfrom_bg_normal.9.png"
 		});
+
 		row.add(labelDetails);
 		tableView.appendRow(row);
 		row = '';

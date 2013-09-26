@@ -81,8 +81,8 @@ function FirstView() {
 	    //     e.section.updateItemAt(e.itemIndex, item);
 	    // }
 	    var ChatWindow = require("/ui/ChatWindow");
-		new ChatWindow(e.itemId).open();
 		IsBackground = false;     
+		new ChatWindow(e.itemId).open();
 	});
 
 	return listView;

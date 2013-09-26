@@ -11,12 +11,6 @@
  *  
  */
 
-//bootstrap and check dependencies
-if (Ti.version < 1.8 ) {
-	alert('Sorry - this application template requires Titanium Mobile SDK 1.8 or later');	  	
-}
-
-// This is a single context application with multiple windows in a stack
 (function() {
 
 	var osname = Ti.Platform.osname;
@@ -32,8 +26,8 @@ if (Ti.version < 1.8 ) {
 		ActivityIndicatorStyle = Titanium.UI.ActivityIndicatorStyle;
 	}
 	
-	// localhost = "192.168.1.101:8080";
-	localhost = "120.209.194.240:8080";
+	localhost = "192.168.1.104:8080";
+	// localhost = "120.209.194.240:8080";
 	var db = Ti.Database.open('websocketDB');
 	// db.execute('DROP TABLE IF EXISTS message');  
 	db.execute('CREATE TABLE IF NOT EXISTS message (id INTEGER PRIMARY KEY, sender VARCHAR(32) NOT NULL, receiver VARCHAR(32) NOT NULL, receivetime datetime, read boolean DEFAULT false, message TEXT,type VARCHAR(32) NOT NULL);');  
