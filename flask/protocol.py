@@ -56,11 +56,9 @@ class MsgServerProtocol(WebSocketServerProtocol):
 
    def sendDict(self, sender, to, timing, payload, binary, payload_frag_size = None, sync = False):
       payloadDict = {"data":payload,"time":timing,"sender":sender.encode("utf8"),"to":to,"type":"text", "random":random.random()}
-      print str(payloadDict)
       self.sendMessage(str(payloadDict), binary)
 
    def onMessage(self, msg, binary):
-      print msg
       msg = eval(msg)
       msg["pymessage"] = msg["message"].replace(";",'').replace("&#x","\u")
       msg["pymessage"] = eval("u" + "'" + msg["pymessage"] + "'")
@@ -70,7 +68,7 @@ class MsgServerProtocol(WebSocketServerProtocol):
          print type(msg["message"])
 
       for client in Msg_CLIENT_POOL:
-         client.sendDict(client.name, "", time.strftime('%Y-%m-%d,%H-%M-%S',time.localtime(time.time())), msg['message'], binary)
+         client.sendDict(self.name, "", time.strftime('%Y-%m-%d,%H:%M:%S',time.localtime(time.time())), msg['message'], binary)
 
    def connectionLost(self, reason):
       try:

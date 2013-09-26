@@ -96,9 +96,11 @@ function bind(ws) {
         }else {
             var txt = message.data["data"];
         };
+        var exsit = false;
         if (sectionList.getItemAt(0) == null) {
             data.push({
                 rowtitle : {text: txt},
+                time : {text:message.data["time"]},
                 username : {text: message.data["sender"]},
                 properties : {
                     itemId: message.data["sender"],
@@ -110,22 +112,27 @@ function bind(ws) {
         }else {
             for (var i = 0;i < sectionList.items.length; i++ ) {
                 if(sectionList.items[i].username.text == message.data["sender"]) {
-                    data.push({
-                        rowtitle : {text: txt},
-                        username : {text: message.data["sender"]},
-                        properties : {
-                            itemId: message.data["sender"],
-                            backgroundImage:"/pay_bill_success_bg.png",
-                            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
-                        }
-                    });
-                    Ti.API.error(JSON.stringify(sectionList.getItemAt(i)));
                     var item = sectionList.getItemAt(i);
                     item.rowtitle.text = txt;
+                    item.time.text = message.data["time"];
                     // sectionList.deleteItemsAt(i,1);
                     sectionList.updateItemAt(i,item);
                     // sectionList.appendItems(data);
+                    exsit = true;
                 }
+            }
+            if (!exsit) {
+                data.push({
+                    rowtitle : {text: txt},
+                    time : {text:message.data["time"]},
+                    username : {text: message.data["sender"]},
+                    properties : {
+                        itemId: message.data["sender"],
+                        backgroundImage:"/pay_bill_success_bg.png",
+                        accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+                    }
+                });
+                sectionList.appendItems(data);
             }
         };
         data = [];
@@ -152,29 +159,6 @@ log = function(str) {
         logarea.value = "";
     }
 };
-
-function CurentTime()
-    { 
-        var now = new Date();
-        var year = now.getFullYear();       //年
-        var month = now.getMonth() + 1;     //月
-        var day = now.getDate();            //日
-        var hh = now.getHours();            //时
-        var mm = now.getMinutes();          //分
-        var clock = year + "-";
-        if(month < 10)
-            clock += "0";
-        clock += month + "-";
-        if(day < 10)
-            clock += "0";
-        clock += day + " ";
-        if(hh < 10)
-            clock += "0";
-        clock += hh + ":";
-        if (mm < 10) clock += '0'; 
-        clock += mm; 
-        return(clock); 
-    }
 
 
 // var message = {

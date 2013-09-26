@@ -37,7 +37,7 @@
         </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="internalOnly">
-        <manifest>
+        <manifest android:installLocation="internalOnly">
             <application android:debuggable="true" android:icon="@drawable/appicon" android:label="WebSocket" android:name="WebsocketApplication">
             </application>
             <uses-permission android:name="android.permission.WAKE_LOCK"/>

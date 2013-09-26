@@ -10,13 +10,14 @@ function ChatWindow(id) {
 		zIndex:2000
 	});
 
-	var listView = Ti.UI.createListView({
+
+	var tableView = Ti.UI.createTableView({
 		accessibilityLabel:"chatview",
 		accessibilityHint: "view",
-		backgroundColor:"white",
 		visible:true,
 		top:"50dp",
-		bottom:"50dp"
+		bottom:"50dp",
+		backgroundColor:'white',
 	});
 
 	var top = Ti.UI.createLabel ({
@@ -45,11 +46,11 @@ function ChatWindow(id) {
 	var sendBtn = Titanium.UI.createButton({
 	    title: '发送',
 	    font: {
-	        fontSize: 20,
+	        fontSize: 16,
 	        fontFamily: 'Helvetica Neue'
 	    },
 	    textAlign: 'center',
-	    width: "40dp",
+	    width: "50dp",
 	    height: "40dp",
 	    // backgroundImage:"/mmfooter_list_moreframebg.9.png",
 	    bottom: "0dp",
@@ -78,7 +79,48 @@ function ChatWindow(id) {
 	self.add(sendBtn);
 	self.add(messageField);
 	self.add(top);
-	self.add(listView);
+	self.add(tableView);
+
+	var db = Ti.Database.open('websocketDB');
+	var currentmsg = db.execute('SELECT sender, receiver, receivetime, read, message, type FROM message WHERE sender = ?',id);
+	var row = Ti.UI.createTableViewRow({
+	    backgroundSelectedColor:'white',
+	    minRowHeight:"100dp",
+	    backgroundColor:"transparent"
+	});
+
+	while (currentmsg.isValidRow())
+	{	
+		var row = Ti.UI.createTableViewRow({
+		    backgroundSelectedColor:'white',
+		    minRowHeight:"100dp",
+		    backgroundColor:"transparent"
+		});
+		var IMG_BASE = '/new' + "/" + "emoji_" + Math.ceil(Math.random()*(470-1)+1) + ".png";
+		var imageAvatar = Ti.UI.createImageView({
+		    image: IMG_BASE,
+		    left:"5dp",
+		  });
+		row.add(imageAvatar);
+		var labelDetails = Ti.UI.createLabel({
+			color:'#222',
+			font:{fontFamily:'Arial', fontSize:"16dp", fontWeight:'normal'},
+			text:currentmsg.fieldByName("message"),
+			left:"70dp",
+			right:"10dp",
+			top:"10dp",
+			bottom:"10dp",
+			width:Ti.UI.SIZE,
+			height:"100dp",
+			backgroundImage:"/favorite_bg_voice.9.png"
+		});
+		row.add(labelDetails);
+		tableView.appendRow(row);
+		row = '';
+	    currentmsg.next();
+	}
+	currentmsg.close();
+	db.close();
 
 	return self;
 				

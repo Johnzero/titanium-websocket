@@ -1,29 +1,6 @@
 //FirstView Component Constructor
 function FirstView() {
 
-	function CurentTime()
-    { 
-        var now = new Date();
-        var year = now.getFullYear();       //年
-        var month = now.getMonth() + 1;     //月
-        var day = now.getDate();            //日
-        var hh = now.getHours();            //时
-        var mm = now.getMinutes();          //分
-        var clock = year + "-";
-        if(month < 10)
-            clock += "0";
-        clock += month + "-";
-        if(day < 10)
-            clock += "0";
-        clock += day + " ";
-        if(hh < 10)
-            clock += "0";
-        clock += hh + ":";
-        if (mm < 10) clock += '0'; 
-        clock += mm; 
-        return(clock); 
-    }
-
 	var plainTemplate = {
 	    childTemplates: [
 	        {
@@ -32,7 +9,7 @@ function FirstView() {
 	            properties: {
 	            	height: '30dp',
 	                  // Sets the Label.left property
-	                left: '50dp',
+	                left: '55dp',
 	                top:"30dp",
 	                color : "gray",
 	                font:{fontSize:"15dp"}
@@ -42,7 +19,7 @@ function FirstView() {
 	            type: 'Ti.UI.Label', // Use a label
 	            bindId: 'username',  // Bind ID for this label
 	            properties: {
-	                left: '50dp',
+	                left: '55dp',
 	                top:"5dp",
 	                color : "black",
 	                font:{fontSize:"20dp", fontWeight:'bold'}
@@ -52,7 +29,8 @@ function FirstView() {
 	            type: 'Ti.UI.ImageView',  // Use an image view
 	            bindId: 'pic',            // Bind ID for this image view
 	            properties: {    
-	            	left:0,         // Sets the ImageView.image property
+	            	left:"5dp", 
+	            	widh:"30dp",   
 	            	image: 'ic_launcher.png'
 	            }
 	        },
@@ -65,27 +43,11 @@ function FirstView() {
 	                  // Sets the Label.left property
 	                right: '0dp',
 	                color : "gray",
-	                text : CurentTime(),
 	                font:{fontSize:"13dp", fontWeight:'bold'}
 	            }
 	        },                  
-	        // {
-	        //     type: 'Ti.UI.Button',   // Use a button
-	        //     bindId: 'button',       // Bind ID for this button
-	        //     properties: {           // Sets several button properties
-	        //         width: '80dp',
-	        //         height: '40dp',                        	
-	        //         right: '10dp',
-	        //         title: 'press me'
-	        //     },
-	        //     events: { click : report }  // Binds a callback to the button's click event
-	        // }
 	    ]
 	};
-
-	function report(e) {
-		Ti.API.info(e.type);
-	}
 
 	var listView = Ti.UI.createListView({
 		accessibilityLabel:"firstview",
@@ -102,25 +64,12 @@ function FirstView() {
 	});
 
 	var data = [];
-	// for (var i = 0; i < 5; i++) {
-	//     data.push({
-	//         // Maps to the rowtitle component in the template
-	//         // Sets the text property of the Label component
-	//         rowtitle : { text: 'Row ' + (i + 1) },
-	//         // Sets the regular list data properties
-	//         properties : {
-	//             itemId: 'row' + (i + 1),
-	//             accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
-	//         }
-	//     });
-	// }
 
 	sectionList = Ti.UI.createListSection();
 	
 	listView.sections = [sectionList];
 	listView.addEventListener('itemclick', function(e){
 
-		Ti.API.error(e.itemIndex);
 	    // if (e.bindId == 'rowtitle' || e.bindId == 'pic') {
 	    //     var item = e.section.getItemAt(e.itemIndex);
 	    //     if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
@@ -132,7 +81,8 @@ function FirstView() {
 	    //     e.section.updateItemAt(e.itemIndex, item);
 	    // }
 	    var ChatWindow = require("/ui/ChatWindow");
-		new ChatWindow(e.itemId).open();     
+		new ChatWindow(e.itemId).open();
+		IsBackground = false;     
 	});
 
 	return listView;
