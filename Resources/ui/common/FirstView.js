@@ -93,7 +93,7 @@ function FirstView() {
 		backgroundColor:"white",
 		visible:true,
 		top:"50dp",
-		height:"85%",
+		bottom:"50dp",
 	    // Maps the plainTemplate object to the 'plain' style name
 	    templates: { 'plain': plainTemplate },
 	    // Use the plain template, that is, the plainTemplate object defined earlier
@@ -119,26 +119,21 @@ function FirstView() {
 	
 	listView.sections = [sectionList];
 	listView.addEventListener('itemclick', function(e){
-	    // Only respond to clicks on the label (rowtitle) or image (pic)
-	    if (e.bindId == 'rowtitle' || e.bindId == 'pic') {
-	        var item = e.section.getItemAt(e.itemIndex);
-	        if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
-	            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
-	        }
-	        else {
-	            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
-	        }
-	        e.section.updateItemAt(e.itemIndex, item);
-	    }      
+
+		Ti.API.error(e.itemIndex);
+	    // if (e.bindId == 'rowtitle' || e.bindId == 'pic') {
+	    //     var item = e.section.getItemAt(e.itemIndex);
+	    //     if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
+	    //         item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
+	    //     }
+	    //     else {
+	    //         item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
+	    //     }
+	    //     e.section.updateItemAt(e.itemIndex, item);
+	    // }
+	    var ChatWindow = require("/ui/ChatWindow");
+		new ChatWindow(e.itemId).open();     
 	});
-
-	// button.addEventListener('click',function(){
-	// 	// self.appendSection(getSection(appendCount));
-	// 	// appendCount++;
-	// 	sectionList.appendItems(data);
-	// })
-
-	// listView.add(button);
 
 	return listView;
 }

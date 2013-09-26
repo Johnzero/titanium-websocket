@@ -43,8 +43,8 @@ function MainWindow() {
 	//construct UI
 	var FirstView = require('ui/common/FirstView');
 	var firstview = new FirstView();
-	var ChatView = require('ui/common/ChatView');
-	var chatview = new ChatView();
+	var OnlineView = require('ui/common/OnlineView');
+	var onlineview = new OnlineView();
 	var FriendsView = require('ui/common/FriendsView');
 	var friendsview = new FriendsView();
 	var SettingsView = require('ui/common/SettingsView');
@@ -212,7 +212,7 @@ function MainWindow() {
 
 		hideview();
 
-		chatview.visible = true;
+		onlineview.visible = true;
 
 	});
 
@@ -295,10 +295,10 @@ function MainWindow() {
 	// });
 
 	self.add(firstview);
-	self.add(chatview);
+	self.add(onlineview);
 	self.add(friendsview);
 	self.add(settingsview);
-	chatview.visible = false;
+	onlineview.visible = false;
 	friendsview.visible = false;
 	settingsview.visible = false;
 

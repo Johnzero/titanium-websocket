@@ -1,8 +1,8 @@
 //FirstView Component Constructor
-function ChatView() {
+function OnlineView() {
 	//create object instance, a parasitic subclass of Observable
 	var self = Ti.UI.createView({
-		accessibilityLabel:"chatview",
+		accessibilityLabel:"onlineview",
 		accessibilityHint: "view",
 		visible:true,
 		top:"50dp"
@@ -61,4 +61,4 @@ function ChatView() {
 	return self;
 }
 
-module.exports = ChatView;
+module.exports = OnlineView;

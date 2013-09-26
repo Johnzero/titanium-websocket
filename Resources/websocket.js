@@ -61,7 +61,6 @@ function bind(ws) {
         var dataToWrite = {"en_us":{"foo":"bar"}};  
         var newDir = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,'mydir');  
         newDir.createDirectory();
-        Ti.API.error('Path to newdir: ' + newDir.nativePath);  
         var newFile = Titanium.Filesystem.getFile(newDir.nativePath,'newfile.json');  
         newFile.write(JSON.stringify(dataToWrite));
 
@@ -87,29 +86,48 @@ function bind(ws) {
     ws.onmessage = function (message) {
 
         message.data = unescape(message.data.replace(/&#x/g,'%u').replace(/;/g,""));
-        Ti.API.error(message.data);
         message.data = eval("(" + message.data + ")");
-        Ti.API.error(message.data);
         var db = Ti.Database.open('websocketDB');
         db.execute('INSERT INTO message (sender, receiver, receivetime, read, message, type) VALUES (?,?,?,?,?,?)', message.data["sender"], username, message.data["time"], false, message.data["data"],message.data["type"]);  
         db.close();
         log("> "+message.data);
-        if (message.data.length > 20) {
-            var txt = message.data.substr(0, 20) + "...";
+        if (message.data["data"].toString().length > 20) {
+            var txt = message.data["data"].toString().substr(0, 20) + "...";
         }else {
-            var txt = message.data;
+            var txt = message.data["data"];
         };
-
-        data.push({
-            rowtitle : {text: txt},
-            username : {text: username},
-            properties : {
-                itemId: 'row',
-                backgroundColor:"rgb(239,239,239)",
-                accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+        if (sectionList.getItemAt(0) == null) {
+            data.push({
+                rowtitle : {text: txt},
+                username : {text: message.data["sender"]},
+                properties : {
+                    itemId: message.data["sender"],
+                    backgroundImage:"/pay_bill_success_bg.png",
+                    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+                }
+            });
+            sectionList.appendItems(data);
+        }else {
+            for (var i = 0;i < sectionList.items.length; i++ ) {
+                if(sectionList.items[i].username.text == message.data["sender"]) {
+                    data.push({
+                        rowtitle : {text: txt},
+                        username : {text: message.data["sender"]},
+                        properties : {
+                            itemId: message.data["sender"],
+                            backgroundImage:"/pay_bill_success_bg.png",
+                            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+                        }
+                    });
+                    Ti.API.error(JSON.stringify(sectionList.getItemAt(i)));
+                    var item = sectionList.getItemAt(i);
+                    item.rowtitle.text = txt;
+                    // sectionList.deleteItemsAt(i,1);
+                    sectionList.updateItemAt(i,item);
+                    // sectionList.appendItems(data);
+                }
             }
-        });
-        sectionList.appendItems(data);
+        };
         data = [];
         txt = '';
 
