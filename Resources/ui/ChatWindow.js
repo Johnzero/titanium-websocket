@@ -105,8 +105,12 @@ function ChatWindow(id) {
 			top:"10dp",
 			bottom:"10dp",
 			width:Ti.UI.SIZE,
+			accessibilityLabel:"label",
 			backgroundImage:"/chatfrom_bg_normal.9.png"
 		});
+		labelDetails.addEventListener("click",function() {
+			alert(labelDetails.size.height);
+		})
 
 		row.add(labelDetails);
 		tableView.appendRow(row);
@@ -116,6 +120,12 @@ function ChatWindow(id) {
 	currentmsg.close();
 	db.close();
 
+	self.addEventListener("open",function(e) {
+		Ti.API.error(JSON.stringify(tableView.sections[0].rows));
+		for(var i=0;i < tableView.sections[0].rows.length;i++) {
+			Ti.API.error(JSON.stringify(tableView.sections[0].rows[i]));
+		}
+	})
 	return self;
 				
 }

@@ -30,8 +30,8 @@ function FirstView() {
 	            bindId: 'pic',            // Bind ID for this image view
 	            properties: {    
 	            	left:"5dp", 
-	            	widh:"30dp",   
-	            	image: 'ic_launcher.png'
+	            	width:"30dp",   
+	            	image: '/ic_launcher.png'
 	            }
 	        },
 	        {
