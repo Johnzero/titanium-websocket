@@ -104,13 +104,14 @@ function ChatWindow(id) {
 			right:"10dp",
 			top:"10dp",
 			bottom:"10dp",
+			textAlign:"left",
 			width:Ti.UI.SIZE,
 			accessibilityLabel:"label",
-			backgroundImage:"/chatfrom_bg_normal.9.png",
+			backgroundImage:"chatfrom_bg_normal.9.png",
 			backgroundSelectedImage:"/chatfrom_bg_pressed.9.png"
 		});
-		labelDetails.addEventListener("click",function() {
-			alert(labelDetails.size.height);
+		labelDetails.addEventListener("click",function(e) {
+			alert(labelDetails.toImage().width);
 		})
 
 		row.add(labelDetails);

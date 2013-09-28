@@ -6,6 +6,7 @@ function FriendsView() {
 		accessibilityHint: "view",
 		top:"50dp",
 		visible:true,
+		backgroundImage:"chatfrom_bg_normal.9.png",
 		backgroundColor : '#333'
 	});
 
@@ -43,14 +44,7 @@ function FriendsView() {
 		width:"100dp"
 	});
 
-	var button3 = Ti.UI.createLabel({
-		title: 'Pend阿萨德发斯蒂芬阿萨德发生的发生的发生的发生的发大水发大水发生的发生发生ing Notification (4 sec)',
-		top: '150dp',
-		backgroundImage:"/chatfrom_bg_normal.9.png"
-	});
-
-	// self.add(im);
-	self.add(button3);
+	self.add(im);
 	self.add(button);
 	self.add(button2);
 
