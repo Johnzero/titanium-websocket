@@ -36,6 +36,7 @@
 	username = '';
 	password = '';
 	ConnectState = 0;
+	ChatWindowOpen = false;
 
 	//considering tablet to have one dimension over 900px - this is imperfect, so you should feel free to decide
 	//yourself what you consider a tablet form factor for android
@@ -59,7 +60,6 @@
 		    }else {ws.close();};
 		}else {ws.close();};
 		Window = require("/ui/MainWindow");
-
 	}
 
 	// }

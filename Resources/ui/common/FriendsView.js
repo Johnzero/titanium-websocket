@@ -36,19 +36,8 @@ function FriendsView() {
 	    var delta = new Date( now + (4 * 1000) );
 	    createNotificationViaService('Fired pending notification!', delta - now);
 	});
-
-	var im = Ti.UI.createImageView({
-		top:"100dp",
-		image:'/favorite_bg_voice.9.png',
-		height:"200dp",
-		width:"100dp"
-	});
-
-	self.add(im);
 	self.add(button);
 	self.add(button2);
-
-					
 
 	return self;
 }
