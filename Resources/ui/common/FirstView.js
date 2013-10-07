@@ -30,8 +30,8 @@ function FirstView() {
 	            bindId: 'pic',            // Bind ID for this image view
 	            properties: {    
 	            	left:"5dp", 
-	            	widh:"30dp",   
-	            	image: 'ic_launcher.png'
+	            	width:"30dp",   
+	            	image: '/ic_launcher.png'
 	            }
 	        },
 	        {
@@ -66,7 +66,57 @@ function FirstView() {
 	var data = [];
 
 	sectionList = Ti.UI.createListSection();
+
+	var db = Ti.Database.open('websocketDB');
+	var currentmsg = db.execute('SELECT id, sender, receiver, receivetime, read, message, type FROM message ORDER BY id asc');
+	while (currentmsg.isValidRow())
+	{	
+        if (sectionList.getItemAt(0) == null) {
+            data.push({
+                rowtitle : {text: currentmsg.fieldByName("message")},
+                time : {text: currentmsg.fieldByName("receivetime")},
+                username : {text: currentmsg.fieldByName("sender")},
+                properties : {
+                    itemId: currentmsg.fieldByName("sender"),
+                    backgroundImage:"/pay_bill_success_bg.png",
+                    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+                }
+            });
+            sectionList.appendItems(data);
+            data = [];
+        }else {
+            for (var i = 0;i < sectionList.items.length; i++ ) {
+                if(sectionList.items[i].username.text == currentmsg.fieldByName("sender")) {
+                    var item = sectionList.getItemAt(i);
+                    item.rowtitle.text = currentmsg.fieldByName("message");
+                    item.time.text = currentmsg.fieldByName("receivetime");
+                    // sectionList.deleteItemsAt(i,1);
+                    sectionList.updateItemAt(i,item);
+                    // sectionList.appendItems(data);
+                    exsit = true;
+                }
+            }
+            if (!exsit) {
+	            data.push({
+	                rowtitle : {text: currentmsg.fieldByName("message")},
+	                time : {text: currentmsg.fieldByName("receivetime")},
+	                username : {text: currentmsg.fieldByName("sender")},
+	                properties : {
+	                    itemId: currentmsg.fieldByName("sender"),
+	                    backgroundImage:"/pay_bill_success_bg.png",
+	                    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+	                }
+	            });
+	            sectionList.appendItems(data);
+            	data = [];
+            }
+        };
+	    currentmsg.next();
+	}
 	
+	currentmsg.close();
+	db.close();
+
 	listView.sections = [sectionList];
 	listView.addEventListener('itemclick', function(e){
 
@@ -81,8 +131,8 @@ function FirstView() {
 	    //     e.section.updateItemAt(e.itemIndex, item);
 	    // }
 	    var ChatWindow = require("/ui/ChatWindow");
+		setTimeout(function () {IsBackground = false;},500);
 		new ChatWindow(e.itemId).open();
-		IsBackground = false;     
 	});
 
 	return listView;

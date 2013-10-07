@@ -6,6 +6,7 @@ function FriendsView() {
 		accessibilityHint: "view",
 		top:"50dp",
 		visible:true,
+		backgroundImage:"chatfrom_bg_normal.9.png",
 		backgroundColor : '#333'
 	});
 
@@ -35,12 +36,8 @@ function FriendsView() {
 	    var delta = new Date( now + (4 * 1000) );
 	    createNotificationViaService('Fired pending notification!', delta - now);
 	});
-
-
 	self.add(button);
 	self.add(button2);
-
-					
 
 	return self;
 }

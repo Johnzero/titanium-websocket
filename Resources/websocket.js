@@ -135,6 +135,9 @@ function bind(ws) {
                 sectionList.appendItems(data);
             }
         };
+        if (ChatWindowOpen) {
+            insertLeft(txt);
+        };
         data = [];
         txt = '';
 
