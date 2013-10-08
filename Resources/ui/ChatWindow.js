@@ -72,7 +72,7 @@ function ChatWindow(id) {
 	sendBtn.addEventListener('click', function() {
 	    var text = messageField.value;
 	    insertRight(text);
-	    send("text",'text',id);
+	    send(text,'text',id);
 	});
 
 	insertRight = function(text) {
@@ -134,7 +134,7 @@ function ChatWindow(id) {
 		var labelDetails = Ti.UI.createLabel({
 			color:'#222',
 			font:{fontSize:"18dp", fontWeight:'blod'},
-			text:"texts",
+			text:texts,
 			left:"20dp",
 			right:"10dp",
 			bottom:"10dp",
@@ -158,7 +158,6 @@ function ChatWindow(id) {
 		row.add(labelView);
 		tableView.appendRow(row);
 		tableView.scrollToIndex(tableView.data[0].rows.length);
-		Ti.API.error(labelDetails.size.width);
 		row = '';
 	}
 

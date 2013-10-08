@@ -26,7 +26,7 @@
 		ActivityIndicatorStyle = Titanium.UI.ActivityIndicatorStyle;
 	}
 	
-	localhost = "192.168.1.104:8080";
+	localhost = "192.168.1.13:8080";
 	// localhost = "120.209.194.240:8080";
 	var db = Ti.Database.open('websocketDB');
 	// db.execute('DROP TABLE IF EXISTS message');  

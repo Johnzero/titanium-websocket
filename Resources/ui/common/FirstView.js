@@ -64,6 +64,7 @@ function FirstView() {
 	});
 
 	var data = [];
+	var exsit = false;
 
 	sectionList = Ti.UI.createListSection();
 
